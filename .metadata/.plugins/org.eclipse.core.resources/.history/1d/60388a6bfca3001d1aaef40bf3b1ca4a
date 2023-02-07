@@ -1,0 +1,17 @@
+package com.newbie.graficos;
+
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
+
+public class Spritesheet {
+	
+	private BufferedImage spritesheet;
+	
+	public Spritesheet(String path) {
+		
+		spritesheet = ImageIO.read(getClass().getResource(path))
+		
+	}
+
+}

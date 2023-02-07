@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\samuel.sps\Desktop\Curso\.metadata\.plugins\org.eclipse.jdt.core
+4017478382.index
+1865797976.index
+3581423709.index

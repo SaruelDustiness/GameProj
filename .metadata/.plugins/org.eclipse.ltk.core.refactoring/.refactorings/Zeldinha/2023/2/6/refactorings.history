@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Zeldinha/res/attack and die.png&apos; to &apos;atkdie.png&apos;" description="Rename resource &apos;attack and die.png&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="res/attack and die.png" name="atkdie.png" stamp="1675717927108" updateReferences="true"/>
+</session>
