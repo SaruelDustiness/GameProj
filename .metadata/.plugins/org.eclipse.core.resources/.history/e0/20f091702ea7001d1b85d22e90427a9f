@@ -1,0 +1,5 @@
+package com.newbie.world;
+
+public class FloorTile extends Tile {
+
+}

@@ -12,7 +12,7 @@ public class Player extends Entity{
 	public int right_dir = 0, left_dir = 1;
 	public int dir = right_dir;
 	
-	private int framesIdle = 0, framesRun = 0, framesAtk = 0, maxFramesAtk = 5, maxFramesIdle = 20, maxFramesRun = 5, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
+	private int framesIdle = 0, framesRun = 0, framesAtk = 0, maxFramesAtk = 5, maxFramesIdle = 20, maxFramesRun = 4, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
 	private int iAtk = 0, maxIAtk = 4;
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
@@ -34,16 +34,16 @@ public class Player extends Entity{
 		rightAtk = new BufferedImage[5];
 		
 		for(int i = 0; i < 8; i++) {
-			rightPlayer[i] = Game.spritesheet.getSprite(0 + (i*24), 48, 24, 24);
+			rightPlayer[i] = Game.charAnim.getSprite(0 + (i*24), 48, 24, 24);
 		}
 		for(int i = 0; i < 8; i++) {
-			leftPlayer[i] = Game.spritesheet.getSprite(0 + (i*24), 24, 24, 24);
+			leftPlayer[i] = Game.charAnim.getSprite(0 + (i*24), 24, 24, 24);
 		}
 		for(int i = 0; i < 2; i++) {
-			sRightPlayer[i] = Game.spritesheet.getSprite(48 + (i*24), 0, 24, 24);
+			sRightPlayer[i] = Game.charAnim.getSprite(48 + (i*24), 0, 24, 24);
 		}
 		for(int i = 0; i < 2; i++) {
-			sLeftPlayer[i] = Game.spritesheet.getSprite(0 + (i*24), 0, 24, 24);
+			sLeftPlayer[i] = Game.charAnim.getSprite(0 + (i*24), 0, 24, 24);
 		}
 		for(int i = 0; i < 5; i++) {
 			rightAtk[i] = Game.atkdie.getSprite(0 + (i*24), 48, 24, 24);
@@ -77,6 +77,7 @@ public class Player extends Entity{
 			y+=speed;
 		}
 		
+		//Animação de andar
 		if(moved) {
 			framesRun++;
 			if(framesRun == maxFramesRun) {
@@ -87,6 +88,7 @@ public class Player extends Entity{
 				}
 			}
 		}
+		//Animação de parado
 		if(!moved) {
 			framesIdle++;
 			if(framesIdle == maxFramesIdle) {
@@ -97,6 +99,7 @@ public class Player extends Entity{
 				}
 			}
 		}
+		//Animação de ataque
 		if(atk) {
 			framesAtk++;
 			if(framesAtk == maxFramesAtk) {

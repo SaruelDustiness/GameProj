@@ -20,6 +20,7 @@ import javax.swing.JFrame;
 import com.newbie.entities.Entity;
 import com.newbie.entities.Player;
 import com.newbie.graficos.Spritesheet;
+import com.newbie.world.World;
 
 /**
  * @author samuel.sps
@@ -41,9 +42,11 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	private BufferedImage image;
 	
 	public List<Entity> entities;
-	public static Spritesheet spritesheet;
+	public static Spritesheet charAnim;
 	public static Spritesheet atkdie;
+	public static Spritesheet summerTile;
 	
+	public static World world;
 	private Player player;
 	
 	public static boolean last = true;
@@ -55,10 +58,12 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		//Inicializando objetos
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
-		spritesheet = new Spritesheet("/spritesheet.png");
+		charAnim = new Spritesheet("/charAnim.png");
 		atkdie = new Spritesheet("/atkdie.png");
+		summerTile = new Spritesheet("/summer_tilemap.png");
+		world = new World("/map.png");
 		
-		player = new Player(0, 0, 16, 16, spritesheet.getSprite(70, 0, 23, 23));
+		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 23, 23));
 		entities.add(player);
 	}
 	
@@ -109,12 +114,13 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			return;
 		}
 		Graphics g = image.getGraphics();
-		g.setColor(new Color(95,255,95));
+		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
 		/*renderização*/
 		
 		//Graphics2D g2 = (Graphics2D) g;
+		world.render(g);
 		for (int i = 0; i < entities.size(); i++){
 			Entity e = entities.get(i);
 			e.render(g);
