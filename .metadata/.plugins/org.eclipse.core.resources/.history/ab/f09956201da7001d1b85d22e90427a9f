@@ -12,7 +12,7 @@ public class Player extends Entity{
 	public int right_dir = 0, left_dir = 1;
 	public int dir = right_dir;
 	
-	private int framesIdle = 0, framesRun = 0, framesAtk = 0, maxFramesAtk = 5, maxFramesIdle = 20, maxFramesRun = 5, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
+	private int frames = 0, framesR = 0, framesA = 0, maxFramesA = 7, maxFrames = 15, maxFramesR = 5, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
 	private int iAtk = 0, maxIAtk = 4;
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
@@ -78,9 +78,9 @@ public class Player extends Entity{
 		}
 		
 		if(moved) {
-			framesRun++;
-			if(framesRun == maxFramesRun) {
-				framesRun = 0;
+			framesR++;
+			if(framesR == maxFramesR) {
+				framesR = 0;
 				index++;
 				if(index > maxIndex) {
 					index = 0;
@@ -88,9 +88,9 @@ public class Player extends Entity{
 			}
 		}
 		if(!moved) {
-			framesIdle++;
-			if(framesIdle == maxFramesIdle) {
-				framesIdle = 0;
+			frames++;
+			if(frames == maxFrames) {
+				frames = 0;
 				index2++;
 				if(index2 > maxIndex2) {
 					index2 = 0;
@@ -98,9 +98,9 @@ public class Player extends Entity{
 			}
 		}
 		if(atk) {
-			framesAtk++;
-			if(framesAtk == maxFramesAtk) {
-				framesAtk = 0;
+			framesA++;
+			if(framesA == maxFramesA) {
+				framesA = 0;
 				iAtk++;
 				if(iAtk > maxIAtk) {
 					iAtk = 0;
