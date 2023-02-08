@@ -1,0 +1,5 @@
+package com.newbie.entities;
+
+public class Enemy {
+
+}

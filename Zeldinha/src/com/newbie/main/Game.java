@@ -36,18 +36,21 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	private final int WIDTH = 240;
-	private final int HEIGHT = 160;
-	private final int SCALE = 3;
+	private final int WIDTH = 400;
+	private final int HEIGHT = 320;
+	private final int SCALE =2;
 	private BufferedImage image;
 	
-	public List<Entity> entities;
-	public static Spritesheet charAnim;
-	public static Spritesheet atkdie;
-	public static Spritesheet summerTile;
-	
+	public static List<Entity> entities;
+	public static Spritesheet charAnim, atkdie, tilemap, objects, enemyOne, enemyTwo;
+//	public static Spritesheet atkdie;
+//	public static Spritesheet tilemap;
+//	public static Spritesheet objects;
+//	public static Spritesheet enemyOne;
+//	public static Spritesheet enemyTwo;
+//	
 	public static World world;
-	private Player player;
+	public static Player player;
 	
 	public static boolean last = true;
 	
@@ -56,15 +59,19 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
 		//Inicializando objetos
-		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		entities = new ArrayList<Entity>();
+		
+		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+		objects = new Spritesheet("/objects.png");
+		enemyOne = new Spritesheet("/bluemush.png");
+		enemyTwo = new Spritesheet("/brownmush.png");
 		charAnim = new Spritesheet("/charAnim.png");
 		atkdie = new Spritesheet("/atkdie.png");
-		summerTile = new Spritesheet("/summer_tilemap.png");
-		world = new World("/map.png");
-		
-		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 23, 23));
+		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 24, 24));
 		entities.add(player);
+		tilemap = new Spritesheet("/tilemap.png");
+		world = new World("/map.png");
+
 	}
 	
 	public void initFrame() {
