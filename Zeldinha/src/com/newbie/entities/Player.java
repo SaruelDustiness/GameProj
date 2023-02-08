@@ -46,10 +46,10 @@ public class Player extends Entity{
 			sLeftPlayer[i] = Game.charAnim.getSprite(0 + (i*24), 0, 24, 24);
 		}
 		for(int i = 0; i < 5; i++) {
-			rightAtk[i] = Game.atkdie.getSprite(0 + (i*24), 48, 24, 24);
+			rightAtk[i] = Game.atkDie.getSprite(0 + (i*24), 48, 24, 24);
 		}
 		for(int i = 0; i < 5; i++) {
-			leftAtk[i] = Game.atkdie.getSprite(0 + (i*24), 0, 24, 24);
+			leftAtk[i] = Game.atkDie.getSprite(0 + (i*24), 0, 24, 24);
 		}
 		
 		

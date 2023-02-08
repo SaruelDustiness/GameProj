@@ -27,29 +27,32 @@ public class World {
 				for(int yy = 0; yy < HEIGHT; yy++) {
 					
 					int pixelAtual = pixels[xx + (yy * WIDTH)];
-					for(int i = 0; i < (16*16); i++) {
-						int rand = (int)(Math.random()*3)+1;
-						if(rand==1) {
-							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
-						}else if(rand==2) {
-							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR2);
-						}else {
-							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
-						}
-					}
+//					for(int i = 0; i < (16*16); i++) {
+//						int rand = (int)(Math.random()*3)+1;
+//						if(rand==1) {
+//							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
+//						}else if(rand==2) {
+//							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR2);
+//						}else {
+//							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
+//						}
+//					}
+					//Chão padrão
+					tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_DIRTMM);
 					
 					//Chão
-					if(pixelAtual == 0xFFC3C3C3) {
-						for(int i = 0; i < (16*16); i++) {
-							int rand = (int)(Math.random()*3)+1;
-							if(rand==1) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
-							}else if(rand==2) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR2);
-							}else {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
-							}
-						}
+					if(pixelAtual == 0xFF880015) {
+//						for(int i = 0; i < (16*16); i++) {
+//							int rand = (int)(Math.random()*3)+1;
+//							if(rand==1) {
+//								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
+//							}else if(rand==2) {
+//								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR2);
+//							}else {
+//								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
+//							}
+//						}
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_GRASSMM);
 					}
 					
 					//Parede
@@ -57,15 +60,48 @@ public class World {
 						for(int i = 0; i < (16*16); i++) {
 							int rand = (int)(Math.random()*4)+1;
 							if(rand==1) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL1);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLTL);
 							}else if(rand==2) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL2);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLTR);
 							}else if(rand==3) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL3);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLBL);
 							}else {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL4);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLBR);
 							}
 						}
+					}
+					
+					//Grama BM
+					else if(pixelAtual == 0xFF00A2E8) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_GRASSBM);
+					}
+					//Grama TM
+					else if(pixelAtual == 0xFF99D9EA) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_GRASSTM);
+					}
+					//Grama Interior TR
+					else if(pixelAtual == 0xFF3F48CC) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_INNERGRASSTR);
+					}
+					//Grama Interior TL
+					else if(pixelAtual == 0xFF22B14C) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_INNERGRASSTL);
+					}
+					//Grama Interior BR
+					else if(pixelAtual == 0xFF7092BE) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_INNERGRASSBR);
+					}
+					//Grama Interior BL
+					else if(pixelAtual == 0xFFB5E61D) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_INNERGRASSBL);
+					}
+					//Grama ML
+					else if(pixelAtual == 0xFFA349A4) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_GRASSML);
+					}
+					//Grama MR
+					else if(pixelAtual == 0xFFC8BFE7) {
+						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_GRASSMR);
 					}
 					
 					//Player
