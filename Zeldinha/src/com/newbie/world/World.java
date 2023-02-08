@@ -6,8 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import com.newbie.entities.Entity;
-import com.newbie.entities.Enemy;
+import com.newbie.entities.*;
 import com.newbie.main.Game;
 
 public class World {
@@ -94,17 +93,19 @@ public class World {
 					
 					//Cura
 					else if(pixelAtual == 0xFFFFF200) {
-						
+						Game.entities.add(new Heal(xx*16, yy*16, 16, 16, Entity.apple));
+
 					}
 					
 					//Espada
 					else if(pixelAtual == 0xFF22B14C) {
-						
+						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.weaponOne));
 					}
 					
 					//Buff
 					else if(pixelAtual == 0xFFFF7F27) {
-						
+						Game.entities.add(new Buff(xx*16, yy*16, 16, 16, Entity.weaponTwo));
+
 					}
 				}
 			}
