@@ -55,6 +55,18 @@ public class Tile {
 	public static BufferedImage SUM_WALLBL = Game.inside.getSprite(0, 16, 16, 16);
 	public static BufferedImage SUM_WALLBR = Game.inside.getSprite(16, 16, 16, 16);
 	
+	//Items 16x16 - Cerca
+	public static BufferedImage ITEM_TL = Game.items.getSprite(0, 112, 16, 16);
+	public static BufferedImage ITEM_TM = Game.items.getSprite(16, 112, 16, 16);
+	public static BufferedImage ITEM_TR = Game.items.getSprite(32, 112, 16, 16);
+	public static BufferedImage ITEM_ML = Game.items.getSprite(0, 128, 16, 16);
+	public static BufferedImage ITEM_MM = Game.items.getSprite(16, 128, 16, 16);
+	public static BufferedImage ITEM_MR = Game.items.getSprite(32, 128, 16, 16);
+	public static BufferedImage ITEM_BL = Game.items.getSprite(0, 144, 16, 16);
+	public static BufferedImage ITEM_BM = Game.items.getSprite(16, 144, 16, 16);
+	public static BufferedImage ITEM_BR = Game.items.getSprite(32, 144, 16, 16);
+	public static BufferedImage ITEM_MM2 = Game.items.getSprite(0, 96, 16, 16);
+	
 	
 	private BufferedImage sprite;
 	private int x, y;

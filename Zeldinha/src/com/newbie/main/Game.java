@@ -42,7 +42,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	private BufferedImage image;
 	
 	public static List<Entity> entities;
-	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside;
+	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside, items;
 //	public static Spritesheet atkdie;
 //	public static Spritesheet tilemap;
 //	public static Spritesheet objects;
@@ -71,8 +71,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		entities.add(player);
 		summerMap = new Spritesheet("/mapSummer.png");
 		inside = new Spritesheet("/inside.png");
+		items = new Spritesheet("/sumitems.png");
 		tileMap = new Spritesheet("/tilemap.png");
-		world = new World("/newMap.png");
+		world = new World("/newMap2.png");
 
 	}
 	
