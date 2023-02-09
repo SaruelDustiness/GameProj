@@ -36,9 +36,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static JFrame frame;
 	private Thread thread;
 	private boolean isRunning = true;
-	private final int WIDTH = 400;
-	private final int HEIGHT = 320;
-	private final int SCALE =2;
+	public static final int WIDTH = 340;
+	public static final int HEIGHT = 240;
+	private final int SCALE = 2;
 	private BufferedImage image;
 	
 	public static List<Entity> entities;
@@ -179,9 +179,11 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.right = true;
+			last = true;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 			player.left = true;
+			last = false;
 		}
 
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
@@ -213,11 +215,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public void keyReleased(KeyEvent e) {
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 			player.right = false;
-			last = true;
 		}
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 			player.left = false;
-			last = false;
 		}
 
 		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
