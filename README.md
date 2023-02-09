@@ -12,3 +12,5 @@ No fim do projeto eu pretendo adicionar:
   - Historia
 
 Espero que com este projeto eu consiga compreender melhor como é a vida de quem trabalha desenvolvendo jogos e também me decida se vou continuar na carreira.
+
+Créditos das texturas originais para https://butterymilk.itch.io/tiny-wonder-farm-asset-pack e https://mattwalkden.itch.io/fantasy-battle-pack!
