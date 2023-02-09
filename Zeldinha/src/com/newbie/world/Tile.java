@@ -15,6 +15,14 @@ public class Tile {
 	public static BufferedImage TILE_WALL2 = Game.tileMap.getSprite(192, 16, 16, 16);
 	public static BufferedImage TILE_WALL3 = Game.tileMap.getSprite(192, 32, 16, 16);
 	public static BufferedImage TILE_WALL4 = Game.tileMap.getSprite(192, 48, 16, 16);
+	public static BufferedImage TILE_WALLG1 = Game.tileMap.getSprite(208, 0, 16, 16);
+	public static BufferedImage TILE_WALLG2 = Game.tileMap.getSprite(208, 16, 16, 16);
+	public static BufferedImage TILE_WALLG3 = Game.tileMap.getSprite(208, 32, 16, 16);
+	public static BufferedImage TILE_WALLG4 = Game.tileMap.getSprite(208, 48, 16, 16);
+	public static BufferedImage TILE_WALLG5 = Game.tileMap.getSprite(224, 0, 16, 16);
+	public static BufferedImage TILE_WALLG6 = Game.tileMap.getSprite(224, 16, 16, 16);
+	public static BufferedImage TILE_WALLG7 = Game.tileMap.getSprite(224, 32, 16, 16);
+	public static BufferedImage TILE_WALLG8 = Game.tileMap.getSprite(224, 48, 16, 16);
 	
 	//Mapa de verão 16x16 com texturas 3x3 - Grama
 	public static BufferedImage SUM_GRASSTL = Game.summerMap.getSprite(32, 0, 16, 16);

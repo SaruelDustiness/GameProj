@@ -60,13 +60,37 @@ public class World {
 						for(int i = 0; i < (16*16); i++) {
 							int rand = (int)(Math.random()*4)+1;
 							if(rand==1) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLTL);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL1);
 							}else if(rand==2) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLTR);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL2);
 							}else if(rand==3) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLBL);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL3);
 							}else {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.SUM_WALLBR);
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL4);
+							}
+						}
+					}
+					
+					//Parede - Chão
+					else if(pixelAtual == 0xFF58824D) {
+						for(int i = 0; i < (16*16); i++) {
+							int rand = (int)(Math.random()*8)+1;
+							if(rand==1) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG1);
+							}else if(rand==2) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG2);
+							}else if(rand==3) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG3);
+							}else if(rand==4) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG4);
+							}else if(rand==5) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG5);
+							}else if(rand==6) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG6);
+							}else if(rand==7) {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG7);
+							}else {
+								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG8);
 							}
 						}
 					}
