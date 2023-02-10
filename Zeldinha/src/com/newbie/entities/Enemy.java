@@ -1,6 +1,5 @@
 package com.newbie.entities;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
@@ -133,6 +132,10 @@ public class Enemy extends Entity{
 			if(framesAtk == maxFramesAtk) {
 				framesAtk = 0;
 				atk++;
+				if(atk == 3) {
+					Game.player.life += -Game.rand.nextInt(10);
+					System.out.println("Vida: " + Game.player.life);
+				}
 				if(atk > maxAtk) {
 					atk = 0;
 				}
@@ -164,6 +167,13 @@ public class Enemy extends Entity{
 					dir = down_dir;
 				}
 				
+			}
+			
+		}else {
+			
+			if(Game.player.life <= 0) {
+				System.out.println("Game Over!");
+				System.exit(1);
 			}
 			
 		}

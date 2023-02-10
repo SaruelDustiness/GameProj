@@ -24,6 +24,8 @@ public class Player extends Entity{
 	private BufferedImage[] rightAtk;
 	private BufferedImage[] leftAtk;
 	
+	public int life = 100;
+	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
 		// TODO Auto-generated constructor stub
