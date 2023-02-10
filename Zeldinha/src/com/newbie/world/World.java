@@ -208,28 +208,27 @@ public class World {
 					
 					//Inimigo
 					else if(pixelAtual == 0xFFED1C24) {
-						for(int i = 0; i < (16*16); i++) {
-							int rand = (int)(Math.random()*3)+1;
-							if(rand==1) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
-							}else if(rand==2) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR2);
-							}else {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
-							}
+						Enemy enBlue = new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBlue, true);
+						Enemy enBrown = new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBrown, false);
+						if(((int)(Math.random()*3)+1)==1) {
+							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
+						}else if(((int)(Math.random()*3)+1)==2) {
+							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR2);
+						}else {
+							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
 						}
 						
-						for(int i = 0; i < 6; i++) {
-							int rand = (int)(Math.random()*2)+1;
-							if(rand%2==0) {
-								//Inimigo Azul
-								Game.entities.add(new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBlue));
-							}
-							else {
-								//Inimigo Marrom
-								Game.entities.add(new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBrown));
-							}
+						if(((int)(Game.rand.nextInt(10))%2==0)) {
+							//Inimigo Azul
+							Game.entities.add(enBlue);
+							Game.enemies.add(enBlue);
 						}
+						else {
+							//Inimigo Marrom
+							Game.entities.add(enBrown);
+							Game.enemies.add(enBrown);
+						}
+						
 					}
 					
 					//Cura
