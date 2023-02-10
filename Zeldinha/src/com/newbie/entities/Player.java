@@ -62,22 +62,22 @@ public class Player extends Entity{
 		
 		moved = false;
 		
-		if(right) {
+		if((right) && (World.isFree((int)(x+speed),this.getY()))) {
 			moved = true;
 			dir = right_dir;
 			x+=speed;
 		}
-		else if(left) {
+		else if((left) && (World.isFree((int)(x-speed),this.getY()))) {
 			moved = true;
 			dir = left_dir;
 			x-=speed;
 		}
-		if(up) {
+		if((up) && (World.isFree(this.getX(),(int)(y-speed)))) {
 			moved = true;
 			dir = up_dir;
 			y-=speed;
 		}
-		else if(down) {
+		else if((down) && (World.isFree(this.getX(),(int)(y+speed)))) {
 			moved = true;
 			dir = down_dir;
 			y+=speed;
@@ -125,10 +125,10 @@ public class Player extends Entity{
 	
 	public void render(Graphics g) {
 		
-		if(dir == right_dir && moved) {
+		if((dir == right_dir) && (moved)) {
 			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
-		else if(dir == left_dir && moved) {
+		else if((dir == left_dir) && (moved)) {
 			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 

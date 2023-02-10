@@ -11,8 +11,9 @@ import com.newbie.main.Game;
 
 public class World {
 
-	private Tile[] tiles;
+	public static Tile[] tiles;
 	public static int WIDTH, HEIGHT;
+	public static final int TILE_SIZE = 16;
 	
 	public World(String path) {
 		
@@ -60,13 +61,13 @@ public class World {
 						for(int i = 0; i < (16*16); i++) {
 							int rand = (int)(Math.random()*4)+1;
 							if(rand==1) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL1);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL1);
 							}else if(rand==2) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL2);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL2);
 							}else if(rand==3) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL3);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL3);
 							}else {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALL4);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALL4);
 							}
 						}
 					}
@@ -76,21 +77,21 @@ public class World {
 						for(int i = 0; i < (16*16); i++) {
 							int rand = (int)(Math.random()*8)+1;
 							if(rand==1) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG1);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG1);
 							}else if(rand==2) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG2);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG2);
 							}else if(rand==3) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG3);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG3);
 							}else if(rand==4) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG4);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG4);
 							}else if(rand==5) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG5);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG5);
 							}else if(rand==6) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG6);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG6);
 							}else if(rand==7) {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG7);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG7);
 							}else {
-								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_WALLG8);
+								tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.TILE_WALLG8);
 							}
 						}
 					}
@@ -147,62 +148,62 @@ public class World {
 					
 					// Cerca lateral esquerda
 					else if(pixelAtual == 0xFF831B87) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_ML);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_ML);
 					}
 					
 					// Cerca lateral direita
 					else if(pixelAtual == 0xFF36846A) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_MR);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_MR);
 					}
 					
 					// Cerca superior e inferior
 					else if((pixelAtual == 0xFF467984) || (pixelAtual == 0xFF555587)) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_BM);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_BM);
 					}
 					
 					// Cerca superior esquerda
 					else if(pixelAtual == 0xFF873F4B) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_TL);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_TL);
 					}
 					
 					// Cerca superior direita
 					else if(pixelAtual == 0xFF874F75) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_TR);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_TR);
 					}
 					
 					// Cerca inferior esquerda
 					else if(pixelAtual == 0xFF4E2E84) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_BL);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_BL);
 					}
 					
 					// Cerca inferior direita
 					else if(pixelAtual == 0xFF818751) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_BR);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_BR);
 					}
 					
 					// Cerca central inversa
 					else if(pixelAtual == 0xFF87481B) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_MM2);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_MM2);
 					}
 					
 					// Cerca central
 					else if(pixelAtual == 0xFFC1FFE7) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_MM);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_MM);
 					}
 					
 					// Cerca central direita
 					else if(pixelAtual == 0xFF873F4B) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_MR);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_MR);
 					}
 					
 					// Cerca inferior direita
 					else if(pixelAtual == 0xFF846A0A) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_BR);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_BR);
 					}
 					
 					// Cerca inferior esquerda
 					else if(pixelAtual == 0xFF6B8456) {
-						tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.ITEM_BL);
+						tiles[xx+(yy*WIDTH)] = new WallTile(xx*16, yy*16, Tile.ITEM_BL);
 					}
 					
 					//Inimigo
@@ -269,6 +270,27 @@ public class World {
 			e.printStackTrace();
 		}
 			
+	}
+	
+	public static boolean isFree(int xNext, int yNext) {
+		
+		int x1 = (xNext+5)/TILE_SIZE;
+		int y1 = (yNext+5)/TILE_SIZE;
+		
+		int x2 = ((xNext+5)+TILE_SIZE-1)/TILE_SIZE;
+		int y2 = (yNext+5)/TILE_SIZE;
+		
+		int x3 = (xNext+5)/TILE_SIZE;
+		int y3 = ((yNext+5)+TILE_SIZE-1)/TILE_SIZE;
+		
+		int x4 = ((xNext+5)+TILE_SIZE-1)/TILE_SIZE;
+		int y4 = ((yNext+5)+TILE_SIZE-1)/TILE_SIZE;
+		
+		return !((tiles[x1+(y1*World.WIDTH)] instanceof WallTile) ||
+				(tiles[x2+(y2*World.WIDTH)] instanceof WallTile) ||
+				(tiles[x3+(y3*World.WIDTH)] instanceof WallTile) ||
+				(tiles[x4+(y4*World.WIDTH)] instanceof WallTile));
+		
 	}
 	
 	public void render(Graphics g) {
