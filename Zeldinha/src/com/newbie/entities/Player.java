@@ -24,7 +24,7 @@ public class Player extends Entity{
 	private BufferedImage[] rightAtk;
 	private BufferedImage[] leftAtk;
 	
-	public int life = 100;
+	public static double life = 100, maxLife = 100;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -64,22 +64,22 @@ public class Player extends Entity{
 		
 		moved = false;
 		
-		if((right) && (World.isFree((int)(x+speed),this.getY()))) {
+		if((right) && (World.isFree((int)(x+speed),this.getY())) && (!Game.dead)) {
 			moved = true;
 			dir = right_dir;
 			x+=speed;
 		}
-		else if((left) && (World.isFree((int)(x-speed),this.getY()))) {
+		else if((left) && (World.isFree((int)(x-speed),this.getY())) && (!Game.dead)) {
 			moved = true;
 			dir = left_dir;
 			x-=speed;
 		}
-		if((up) && (World.isFree(this.getX(),(int)(y-speed)))) {
+		if((up) && (World.isFree(this.getX(),(int)(y-speed))) && (!Game.dead)) {
 			moved = true;
 			dir = up_dir;
 			y-=speed;
 		}
-		else if((down) && (World.isFree(this.getX(),(int)(y+speed)))) {
+		else if((down) && (World.isFree(this.getX(),(int)(y+speed))) && (!Game.dead)) {
 			moved = true;
 			dir = down_dir;
 			y+=speed;

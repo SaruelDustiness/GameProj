@@ -118,62 +118,77 @@ public class Enemy extends Entity{
 	
 	public void tick() {
 		
-		framesRun++;
-		if(framesRun == maxFramesRun) {
-			framesRun = 0;
-			run++;
-			if(run > maxRun) {
-				run = 0;
-			}
-		}
-		
-		if(isCollidingWithPlayer()) {
-			framesAtk++;
-			if(framesAtk == maxFramesAtk) {
-				framesAtk = 0;
-				atk++;
-				if(atk == 3) {
-					Game.player.life += -Game.rand.nextInt(10);
-					System.out.println("Vida: " + Game.player.life);
-				}
-				if(atk > maxAtk) {
-					atk = 0;
+		if((Game.start) && (!Game.pause) && (!Game.dead)) {
+			framesRun++;
+			if(framesRun == maxFramesRun) {
+				framesRun = 0;
+				run++;
+				if(run > maxRun) {
+					run = 0;
 				}
 			}
-		}
-		if(!isCollidingWithPlayer()) {
 			
-			if(Game.rand.nextInt(100) < 20) {
-				
-				if(((int)x < Game.player.getX()) && (World.isFree((int)(this.getX()+speed), this.getY())) 
-						&& !isColliding((int)(this.getX()+speed), this.getY())) {
-					x+=speed;
-					dir = right_dir;
-					last = true;
-				}else if(((int)x > Game.player.getX()) && (World.isFree((int)(this.getX()-speed), this.getY()))
-						&& !isColliding((int)(this.getX()-speed), this.getY())) {
-					x-=speed;
-					dir = left_dir;
-					last = false;
+			if(isCollidingWithPlayer()) {
+				framesAtk++;
+				if(framesAtk == maxFramesAtk) {
+					framesAtk = 0;
+					atk++;
+					if(atk == 3) {
+						Game.player.life += -Game.rand.nextInt(10);
+						System.out.println("Vida: " + Game.player.life);
+					}
+					if(atk > maxAtk) {
+						atk = 0;
+					}
+				}else {
+					
+					if(Game.player.life <= 0) {
+						System.out.println("Game Over!");
+						Game.dead = true;
+					}
+					
 				}
+			}
+			
+			if(!isCollidingWithPlayer()) {
 				
-				if(((int)y < Game.player.getY()) && (World.isFree(this.getX(), (int)(this.getY()+speed)))
-						&& !isColliding(this.getX(), (int)(this.getY()+speed))) {
-					y+=speed;
-					dir = up_dir;
-				}else if(((int)y > Game.player.getY()) && (World.isFree(this.getX(), (int)(this.getY()-speed)))
-						&& !isColliding(this.getX(), (int)(this.getY()-speed)))	{
-					y-=speed;
-					dir = down_dir;
+				if(Game.rand.nextInt(100) < 20) {
+					
+					if(((int)x < Game.player.getX()) && (World.isFree((int)(this.getX()+speed), this.getY())) 
+							&& !isColliding((int)(this.getX()+speed), this.getY())) {
+						x+=speed;
+						dir = right_dir;
+						last = true;
+					}else if(((int)x > Game.player.getX()) && (World.isFree((int)(this.getX()-speed), this.getY()))
+							&& !isColliding((int)(this.getX()-speed), this.getY())) {
+						x-=speed;
+						dir = left_dir;
+						last = false;
+					}
+					
+					if(((int)y < Game.player.getY()) && (World.isFree(this.getX(), (int)(this.getY()+speed)))
+							&& !isColliding(this.getX(), (int)(this.getY()+speed))) {
+						y+=speed;
+						dir = up_dir;
+					}else if(((int)y > Game.player.getY()) && (World.isFree(this.getX(), (int)(this.getY()-speed)))
+							&& !isColliding(this.getX(), (int)(this.getY()-speed)))	{
+						y-=speed;
+						dir = down_dir;
+					}
+					
 				}
 				
 			}
 			
 		}else {
 			
-			if(Game.player.life <= 0) {
-				System.out.println("Game Over!");
-				System.exit(1);
+			framesIdle++;
+			if(framesIdle == maxFramesIdle) {
+				framesIdle = 0;
+				idle++;
+				if(idle > maxIdle) {
+					idle = 0;
+				}
 			}
 			
 		}
@@ -217,71 +232,96 @@ public class Enemy extends Entity{
 	
 	public void render(Graphics g) {
 		
-		if(!isCollidingWithPlayer()) { // Inimigo Correndo
+		if((Game.start) && (!Game.pause) && (!Game.dead)) {
 		
-			if(blue) { 
+			if(!isCollidingWithPlayer()) { // Inimigo Correndo
+			
+				if(blue) { 
+					
+					if(dir == right_dir) {
+						g.drawImage(rightBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if(dir == left_dir) {
+						g.drawImage(leftBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					if((dir == up_dir) && last) {
+						g.drawImage(rightBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if((dir == down_dir) && !last) {
+						g.drawImage(leftBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					if((dir == up_dir) && !last) {
+						g.drawImage(leftBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if((dir == down_dir) && last) {
+						g.drawImage(rightBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					
+				}else {
+					if(dir == right_dir) {
+						g.drawImage(rightBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if(dir == left_dir) {
+						g.drawImage(leftBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					if((dir == up_dir) && last) {
+						g.drawImage(rightBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if((dir == down_dir) && !last) {
+						g.drawImage(leftBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					if((dir == up_dir) && !last) {
+						g.drawImage(leftBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if((dir == down_dir) && last) {
+						g.drawImage(rightBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 				
-				if(dir == right_dir) {
-					g.drawImage(rightBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				else if(dir == left_dir) {
-					g.drawImage(leftBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				if((dir == up_dir) && last) {
-					g.drawImage(rightBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				else if((dir == down_dir) && !last) {
-					g.drawImage(leftBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				if((dir == up_dir) && !last) {
-					g.drawImage(leftBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				else if((dir == down_dir) && last) {
-					g.drawImage(rightBlueRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
+			}else { // Inimigo atacando!
 				
-			}else {
-				if(dir == right_dir) {
-					g.drawImage(rightBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(blue) {
+					
+					if(last) {
+						g.drawImage(rightBlueAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if(!last) {
+						g.drawImage(leftBlueAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				
+				}else {
+					if(last) {
+						g.drawImage(rightBrownAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+					else if(!last) {
+						g.drawImage(leftBrownAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				
 				}
-				else if(dir == left_dir) {
-					g.drawImage(leftBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				if((dir == up_dir) && last) {
-					g.drawImage(rightBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				else if((dir == down_dir) && !last) {
-					g.drawImage(leftBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				if((dir == up_dir) && !last) {
-					g.drawImage(leftBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
-				else if((dir == down_dir) && last) {
-					g.drawImage(rightBrownRun[run], this.getX() - Camera.x, this.getY() - Camera.y, null);
-				}
+					
 			}
 			
-		}else { // Inimigo atacando!
+		}else {
 			
 			if(blue) {
 				
 				if(last) {
-					g.drawImage(rightBlueAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					g.drawImage(rightBlueIdle[idle], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				}
 				else if(!last) {
-					g.drawImage(leftBlueAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					g.drawImage(leftBlueIdle[idle], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				}
 			
 			}else {
 				if(last) {
-					g.drawImage(rightBrownAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					g.drawImage(rightBrownIdle[idle], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				}
 				else if(!last) {
-					g.drawImage(leftBrownAtk[atk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					g.drawImage(leftBrownIdle[idle], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				}
 			
 			}
-				
+			
 		}
 
 //		super.render(g);

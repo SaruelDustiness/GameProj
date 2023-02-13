@@ -22,6 +22,7 @@ import com.newbie.entities.Enemy;
 import com.newbie.entities.Entity;
 import com.newbie.entities.Player;
 import com.newbie.graficos.Spritesheet;
+import com.newbie.graficos.Ui;
 import com.newbie.world.World;
 
 /**
@@ -58,6 +59,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static Random rand;
 	
 	public static boolean last = true;
+	public static boolean start = false, pause = false, dead = false;
+	
+	public Ui ui;
 	
 	public Game() {
 		rand = new Random();
@@ -68,6 +72,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		entities = new ArrayList<Entity>();
 		enemies = new ArrayList<Enemy>();
 		
+		ui = new Ui();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
 		objects = new Spritesheet("/objects.png");
 		enemyOne = new Spritesheet("/bluemush.png");
@@ -131,6 +136,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			return;
 		}
 		Graphics g = image.getGraphics();
+		Graphics s = image.getGraphics();
 		g.setColor(new Color(0,0,0));
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
@@ -142,6 +148,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			Entity e = entities.get(i);
 			e.render(g);
 		}
+		ui.render(g, s);
 		g.dispose();
 		g = bs.getDrawGraphics();
 		g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
@@ -176,6 +183,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		
 		stop();
 	}
+	
+	public void restartGame() {
+		
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -185,35 +196,65 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
-			player.right = true;
-			last = true;
+		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
+			
+			start = true;
+			
 		}
-		else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
-			player.left = true;
-			last = false;
-		}
+		
+		if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (!pause) && (start) && (dead)) {
 
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
-			player.up = true;
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
-			player.down = true;
-		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_C) {
+			System.exit(1);;
 			
 		}
 		
-		if(e.getKeyCode() == KeyEvent.VK_X) {
+		if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (!pause) && (start) && (!dead)) {
+			
+			pause = true;
+			
+		}else if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (pause) && (start) && (!dead)) {
+			
+			pause = false;
+			
+		}else if((e.getKeyCode() == KeyEvent.VK_R) && (!pause) && (start) && (dead)) {
+			
+			
 			
 		}
 		
-		if(e.getKeyCode() == KeyEvent.VK_F) {
-			player.atk = true;
-		}
-		
-		if(e.getKeyCode() == KeyEvent.VK_E) {
+		if((!pause) && (start) && (!dead)) {
+			
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+				player.right = true;
+				last = true;
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+				player.left = true;
+				last = false;
+			}
+	
+			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+				player.up = true;
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+				player.down = true;
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_C) {
+				
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_X) {
+				
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_F) {
+				player.atk = true;
+			}
+			
+			if(e.getKeyCode() == KeyEvent.VK_E) {
+				
+			}
 			
 		}
 		
@@ -221,18 +262,20 @@ public class Game extends Canvas implements Runnable, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
-			player.right = false;
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
-			player.left = false;
-		}
-
-		if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
-			player.up = false;
-		}
-		else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
-			player.down = false;
+		if((!pause) && (start) && (!dead)) {
+			if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
+				player.right = false;
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
+				player.left = false;
+			}
+	
+			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
+				player.up = false;
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
+				player.down = false;
+			}
 		}
 		
 	}
