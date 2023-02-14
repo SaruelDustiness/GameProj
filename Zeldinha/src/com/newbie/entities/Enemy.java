@@ -120,6 +120,8 @@ public class Enemy extends Entity{
 	public void tick() {
 		
 		if((Game.start) && (!Game.pause) && (!Game.dead)) {
+			//Se o jogo for iniciado, estiver despausado e o jogador não estiver morto,
+			//o inimigo corre até ele.
 			framesRun++;
 			if(framesRun == maxFramesRun) {
 				framesRun = 0;
@@ -129,39 +131,48 @@ public class Enemy extends Entity{
 				}
 			}
 			
-			if(isCollidingWithPlayer()) {
+			if(isCollidingWithPlayer()) {//Se o inimigo estiver colidindo com o jogador, é 
+				//realizada a animação de ataque.
+				
 				framesAtk++;
 				if(framesAtk == maxFramesAtk) {
 					framesAtk = 0;
 					atk++;
-					if(atk == 3) {
+					if(atk == 3) {	//Ao realizar o terceiro frame do ataque, o jogador 
+						//recebe dano aleatório entre 0 e 9.
 						Game.player.life += -Game.rand.nextInt(10);
-						System.out.println("Vida: " + Game.player.life);
 					}
 					if(atk > maxAtk) {
 						atk = 0;
 					}
+					
 				}else {
 					
-					if(Game.player.life <= 0) {
-						System.out.println("Game Over!");
+					if(Game.player.life <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
+						//o jogador é morto.
 						Game.dead = true;
+						Player.dead = true;
 					}
 					
 				}
 			}
 			
-			if(!isCollidingWithPlayer()) {
+			if(!isCollidingWithPlayer()) {// Se o jogador não estiver colidindo com o inimigo, 
+				//o inimigo irá se mover em sua direção.
 				
-				if(Game.rand.nextInt(100) < 20) {
+				if(Game.rand.nextInt(100) < 20) { //A velocidade de movimento do inimigo se 
+					//relaciona à chance de um número aleatório entre 0 e 99 ser menor que 20. 
 					
 					if(((int)x < Game.player.getX()) && (World.isFree((int)(this.getX()+speed), this.getY())) 
 							&& !isColliding((int)(this.getX()+speed), this.getY())) {
+						//Se o jogador estiver na direita, o inimigo se move para a direita.
 						x+=speed;
 						dir = right_dir;
 						last = true;
 					}else if(((int)x > Game.player.getX()) && (World.isFree((int)(this.getX()-speed), this.getY()))
 							&& !isColliding((int)(this.getX()-speed), this.getY())) {
+						//Se o jogador não estiver na direita, mas na esquerda, o inimigo se 
+						//move para a esquerda.
 						x-=speed;
 						dir = left_dir;
 						last = false;
@@ -169,10 +180,13 @@ public class Enemy extends Entity{
 					
 					if(((int)y < Game.player.getY()) && (World.isFree(this.getX(), (int)(this.getY()+speed)))
 							&& !isColliding(this.getX(), (int)(this.getY()+speed))) {
+						//Se o jogador estiver acima do inimigo, o mesmo vai para cima.
 						y+=speed;
 						dir = up_dir;
 					}else if(((int)y > Game.player.getY()) && (World.isFree(this.getX(), (int)(this.getY()-speed)))
 							&& !isColliding(this.getX(), (int)(this.getY()-speed)))	{
+						//Se o jogador não estiver acima do inimigo, mas embaixo, o inimigo se 
+						//move para baixo.
 						y-=speed;
 						dir = down_dir;
 					}
@@ -182,6 +196,7 @@ public class Enemy extends Entity{
 			}
 			
 		}else {
+			//Caso contrário, o inimigo ficará paradinho.
 			
 			framesIdle++;
 			if(framesIdle == maxFramesIdle) {
@@ -197,6 +212,7 @@ public class Enemy extends Entity{
 	}
 	
 	public boolean isCollidingWithPlayer() {
+		//Verifica se o inimigo está colidindo com o jogador.
 		
 		Rectangle enemyCurrent = new Rectangle(this.getX(), this.getY(), World.TILE_SIZE, World.TILE_SIZE);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 24, 24);
@@ -206,6 +222,7 @@ public class Enemy extends Entity{
 	}
 	
 	public boolean isColliding(int xNext, int yNext) {
+		//Verifica se o inimigo está colidindo com o cenário ou com outros inimigos.
 		
 		Rectangle enemyCurrent = new Rectangle(xNext, yNext, World.TILE_SIZE, World.TILE_SIZE);
 		
@@ -302,7 +319,7 @@ public class Enemy extends Entity{
 					
 			}
 			
-		}else {
+		}else { //Inimigo parado
 			
 			if(blue) {
 				

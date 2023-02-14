@@ -31,7 +31,7 @@ public class Ui {
 			
 		}else if((Game.start) && (!Game.pause) && (Game.dead)) {
 			
-			g.drawString("Que pena, você morreu :C", 72, 120);
+			g.drawString("E morreu!!1onze!", 114, 120);
 			s.drawString("Pressione R para reiniciar ou ESC para sair!", 4, 140);
 			
 		}

@@ -10,11 +10,14 @@ import com.newbie.world.World;
 public class Player extends Entity{
 	
 	public boolean right, up, left, down, atk;
+	public static boolean dead;
+	public boolean stopp = false;
 	public double speed = 1.7;
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;
 	public int dir = right_dir;
 	
 	private int framesIdle = 0, framesRun = 0, framesAtk = 0, maxFramesAtk = 5, maxFramesIdle = 20, maxFramesRun = 4, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
+	private int framesDie = 0, maxFramesDie = 6, die = 0, maxDie = 3;
 	private int iAtk = 0, maxIAtk = 4;
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
@@ -23,6 +26,8 @@ public class Player extends Entity{
 	private BufferedImage[] sLeftPlayer;
 	private BufferedImage[] rightAtk;
 	private BufferedImage[] leftAtk;
+	private BufferedImage[] rightDead;
+	private BufferedImage[] leftDead;
 	
 	public static double life = 100, maxLife = 100;
 	
@@ -36,6 +41,8 @@ public class Player extends Entity{
 		sLeftPlayer = new BufferedImage[2];
 		leftAtk = new BufferedImage[5];
 		rightAtk = new BufferedImage[5];
+		leftDead = new BufferedImage[4];
+		rightDead = new BufferedImage[4];
 		
 		for(int i = 0; i < 8; i++) {
 			rightPlayer[i] = Game.charAnim.getSprite(0 + (i*24), 48, 24, 24);
@@ -54,6 +61,12 @@ public class Player extends Entity{
 		}
 		for(int i = 0; i < 5; i++) {
 			leftAtk[i] = Game.atkDie.getSprite(0 + (i*24), 0, 24, 24);
+		}
+		for(int i = 0; i < 4; i++) {
+			rightDead[i] = Game.atkDie.getSprite(0 + (i*24), 72, 24, 24);
+		}
+		for(int i = 0; i < 4; i++) {
+			leftDead[i] = Game.atkDie.getSprite(0 + (i*24), 24, 24, 24);
 		}
 		
 		
@@ -86,7 +99,7 @@ public class Player extends Entity{
 		}
 		
 		//Animação de andar
-		if(moved) {
+		if(moved && !dead) {
 			framesRun++;
 			if(framesRun == maxFramesRun) {
 				framesRun = 0;
@@ -97,7 +110,7 @@ public class Player extends Entity{
 			}
 		}
 		//Animação de parado
-		if(!moved) {
+		if(!moved && !dead) {
 			framesIdle++;
 			if(framesIdle == maxFramesIdle) {
 				framesIdle = 0;
@@ -108,7 +121,7 @@ public class Player extends Entity{
 			}
 		}
 		//Animação de ataque
-		if(atk) {
+		if(atk && !dead) {
 			framesAtk++;
 			if(framesAtk == maxFramesAtk) {
 				framesAtk = 0;
@@ -116,6 +129,18 @@ public class Player extends Entity{
 				if(iAtk > maxIAtk) {
 					iAtk = 0;
 					atk = false;
+				}
+			}
+		}
+		//Animação de morte
+		if(dead && !stopp) {
+			framesDie++;
+			if(framesDie == maxFramesDie) {
+				framesDie = 0;
+				die++;
+				if(die > maxDie) {
+					die = 3;
+					stopp = true;
 				}
 			}
 		}
@@ -148,6 +173,13 @@ public class Player extends Entity{
 	
 	public void render(Graphics g) {
 		
+		if(dead && Game.last) {
+			g.drawImage(rightDead[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		}
+		else if(dead && !Game.last) {
+			g.drawImage(leftDead[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		}
+		
 		if((dir == right_dir) && (moved)) {
 			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
@@ -169,7 +201,7 @@ public class Player extends Entity{
 			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		
-		if(Game.last && !moved) {
+		if(Game.last && !moved && !dead) {
 			if(atk) {
 				g.drawImage(rightAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
@@ -177,7 +209,7 @@ public class Player extends Entity{
 				g.drawImage(sRightPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 		}
-		else if(!Game.last && !moved) {
+		else if(!Game.last && !moved && !dead) {
 			if(atk) {
 				g.drawImage(leftAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
