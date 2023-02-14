@@ -14,6 +14,7 @@ public class Enemy extends Entity{
 	private int maxFramesAtk = 6, maxFramesRun = 7, maxFramesIdle = 6, maxFramesDie = 7;
 	private int atk = 0, maxAtk = 5, run = 0, maxRun = 6, idle = 0, maxIdle = 5, die = 0, maxDie = 6;
 	private boolean last = true;
+	public static int enemyCount = 0;
 	
 	private double speed = 1;
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;

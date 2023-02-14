@@ -222,11 +222,13 @@ public class World {
 							//Inimigo Azul
 							Game.entities.add(enBlue);
 							Game.enemies.add(enBlue);
+							Enemy.enemyCount++;
 						}
 						else {
 							//Inimigo Marrom
 							Game.entities.add(enBrown);
 							Game.enemies.add(enBrown);
+							Enemy.enemyCount++;
 						}
 						
 					}
@@ -243,8 +245,8 @@ public class World {
 								tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR3);
 							}
 						}
-						Game.entities.add(new Heal(xx*16, yy*16, 16, 16, Entity.apple));
-
+						Heal heal = new Heal(xx*16, yy*16, 16, 16, Entity.apple);
+						Game.entities.add(heal);
 					}
 					
 //					//Espada
@@ -260,7 +262,7 @@ public class World {
 					
 					//Player
 					else if(pixelAtual == 0xFFC7EDBD) {
-						Game.player.setX((xx*16)-5);
+						Game.player.setX(xx*16);
 						Game.player.setY(yy*16);
 					}
 				}

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import com.newbie.entities.Enemy;
 import com.newbie.entities.Player;
 import com.newbie.main.Game;
 
@@ -49,6 +50,10 @@ public class Ui {
 		}else {
 			g.drawString((int)Player.life+"/"+(int)Player.maxLife, 60, 11);
 		}
+		
+		g.setColor(Color.white);
+		g.setFont(new Font("arial", Font.BOLD, 12));
+		g.drawString("Inimigos: "+Enemy.enemyCount, 270, 11);
 		
 	}
 

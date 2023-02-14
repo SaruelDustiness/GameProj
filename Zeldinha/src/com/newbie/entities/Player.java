@@ -120,9 +120,30 @@ public class Player extends Entity{
 			}
 		}
 		
+		this.checkHeal();
+		
 		//Camera
 		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2),0,World.WIDTH*16 - Game.WIDTH);
 		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2),0,World.HEIGHT*16 - Game.HEIGHT);
+	}
+	
+	public void checkHeal() {
+		
+		for(int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Heal) {
+				if(Entity.isColliding(this, atual)){
+					life+=10;
+					
+					if(life >= 100) {
+						life = 100;
+					}
+					
+					Game.entities.remove(i);
+				}
+			}
+		}
+		
 	}
 	
 	public void render(Graphics g) {
