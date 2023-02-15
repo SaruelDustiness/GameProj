@@ -19,19 +19,24 @@ public class Ui {
 			
 			g.drawString("Pressione Espaço para iniciar!", 60, 120);
 			
-		}else if((Game.start) && (Game.pause) && (!Game.dead)) {
+		}else if((Game.start) && (Game.pause) && (!Game.dead) && (!Game.win)) {
 			
 			g.drawString("Jogo Pausado!", 114, 120);
 			s.drawString("Pressione ESC para continuar!", 64, 140);
 			
-		}else if((Game.start) && (!Game.pause) && (!Game.dead)){
+		}else if((Game.start) && (!Game.pause) && (!Game.dead) && (!Game.win)){
 			
 			g.drawString("", 0, 0);
 			s.drawString("", 0, 0);
 			
-		}else if((Game.start) && (!Game.pause) && (Game.dead)) {
+		}else if((Game.start) && (!Game.pause) && (Game.dead) && (!Game.win)) {
 			
 			g.drawString("E morreu!!1onze!", 114, 120);
+			s.drawString("Pressione R para reiniciar ou ESC para sair!", 4, 140);
+			
+		}else if((Game.start) && (!Game.pause) && (!Game.dead) && (Game.win)) {
+
+			g.drawString("Parabéns! Você ganhou!", 82, 120);
 			s.drawString("Pressione R para reiniciar ou ESC para sair!", 4, 140);
 			
 		}
@@ -52,8 +57,14 @@ public class Ui {
 		}
 		
 		g.setColor(Color.white);
-		g.setFont(new Font("arial", Font.BOLD, 12));
+		g.setFont(new Font("arial", Font.BOLD, 10));
 		g.drawString("Inimigos: "+Enemy.enemyCount, 270, 11);
+		
+		g.setColor(Color.white);
+		g.setFont(new Font("arial", Font.BOLD, 10));
+		g.drawString("Crit 100%: "+Player.buff, 270, 230);
+		
+		
 		
 	}
 

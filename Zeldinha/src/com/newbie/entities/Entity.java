@@ -77,11 +77,18 @@ public class Entity {
 		
 	}
 	
-	public static boolean isColliding(Entity e1, Entity e2) {
+	public static boolean isCollidingHeal(Entity e1, Entity e2) {
 		Rectangle playerAtual = new Rectangle(e1.getX() + e1.maskx, e1.getY() + e1.masky, e1.mwidth, e1.mheight);
 		Rectangle healAtual = new Rectangle(e2.getX() + e2.maskx, e2.getY() + e2.masky, e2.mwidth, e2.mheight);
 		
 		return playerAtual.intersects(healAtual);
+	}
+	
+	public static boolean isCollidingBuff(Entity e1, Entity e2) {
+		Rectangle playerAtual = new Rectangle(e1.getX() + e1.maskx, e1.getY() + e1.masky, e1.mwidth, e1.mheight);
+		Rectangle buffAtual = new Rectangle(e2.getX() + e2.maskx, e2.getY() + e2.masky, e2.mwidth, e2.mheight);
+		
+		return playerAtual.intersects(buffAtual);
 	}
 	
 	public void render(Graphics g) {

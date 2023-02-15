@@ -28,8 +28,10 @@ public class Player extends Entity{
 	private BufferedImage[] leftAtk;
 	private BufferedImage[] rightDead;
 	private BufferedImage[] leftDead;
+	private boolean enemyCheck = false;
 	
 	public static double life = 100, maxLife = 100;
+	public static int buff = 0;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
@@ -69,30 +71,28 @@ public class Player extends Entity{
 			leftDead[i] = Game.atkDie.getSprite(0 + (i*24), 24, 24, 24);
 		}
 		
-		
-		
 	}
 
 	public void tick() {
 		
 		moved = false;
 		
-		if((right) && (World.isFree((int)(x+speed),this.getY())) && (!Game.dead)) {
+		if((right) && (World.isFree((int)(x+speed),this.getY())) && (!Game.dead) && (!Game.win)) {
 			moved = true;
 			dir = right_dir;
 			x+=speed;
 		}
-		else if((left) && (World.isFree((int)(x-speed),this.getY())) && (!Game.dead)) {
+		else if((left) && (World.isFree((int)(x-speed),this.getY())) && (!Game.dead) && (!Game.win)) {
 			moved = true;
 			dir = left_dir;
 			x-=speed;
 		}
-		if((up) && (World.isFree(this.getX(),(int)(y-speed))) && (!Game.dead)) {
+		if((up) && (World.isFree(this.getX(),(int)(y-speed))) && (!Game.dead) && (!Game.win)) {
 			moved = true;
 			dir = up_dir;
 			y-=speed;
 		}
-		else if((down) && (World.isFree(this.getX(),(int)(y+speed))) && (!Game.dead)) {
+		else if((down) && (World.isFree(this.getX(),(int)(y+speed))) && (!Game.dead) && (!Game.win)) {
 			moved = true;
 			dir = down_dir;
 			y+=speed;
@@ -126,6 +126,31 @@ public class Player extends Entity{
 			if(framesAtk == maxFramesAtk) {
 				framesAtk = 0;
 				iAtk++;
+				if(iAtk == 2) {	//Ao realizar o terceiro frame do ataque, o jogador 
+					for(int i = 0; i < Game.entities.size(); i++) {
+						Entity atual = Game.entities.get(i);
+						if(atual instanceof Enemy) {
+							if(((Enemy) atual).isCollidingWithPlayer()){
+								int dano = Game.rand.nextInt(7)+1;
+								int chance = Game.rand.nextInt(100)+1;
+								if((chance < 10) && (buff == 0)){
+									((Enemy) atual).life += -10;
+									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
+								}else if((chance > 10) && (buff == 0)){
+									((Enemy) atual).life += -dano;
+									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
+								}else if((buff > 0)) {
+									((Enemy) atual).life += -10;
+									buff--;
+									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
+								}
+								if(((Enemy) atual).life <= 0) {
+									((Enemy) atual).dead = true;
+								}
+							}
+						}
+					}
+				}
 				if(iAtk > maxIAtk) {
 					iAtk = 0;
 					atk = false;
@@ -145,24 +170,41 @@ public class Player extends Entity{
 			}
 		}
 		
-		this.checkHeal();
+		this.checkHealCollision();
+		this.checkBuffCollision();
 		
 		//Camera
 		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2),0,World.WIDTH*16 - Game.WIDTH);
 		Camera.y = Camera.clamp(this.getY() - (Game.HEIGHT/2),0,World.HEIGHT*16 - Game.HEIGHT);
 	}
 	
-	public void checkHeal() {
+	public void checkHealCollision() {
 		
 		for(int i = 0; i < Game.entities.size(); i++) {
 			Entity atual = Game.entities.get(i);
 			if(atual instanceof Heal) {
-				if(Entity.isColliding(this, atual)){
+				if(Entity.isCollidingHeal(this, atual)){
 					life+=10;
 					
 					if(life >= 100) {
 						life = 100;
 					}
+					
+					Game.entities.remove(i);
+				}
+			}
+		}
+		
+	}
+	
+	public void checkBuffCollision() {
+		
+		for(int i = 0; i < Game.entities.size(); i++) {
+			Entity atual = Game.entities.get(i);
+			if(atual instanceof Buff) {
+				if(Entity.isCollidingBuff(this, atual)){
+					
+					buff+=5;
 					
 					Game.entities.remove(i);
 				}

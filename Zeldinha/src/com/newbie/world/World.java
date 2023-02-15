@@ -256,7 +256,8 @@ public class World {
 					
 //					//Buff
 					else if(pixelAtual == 0xFFFFD27F) {
-						Game.entities.add(new Buff(xx*16, yy*16, 16, 16, Entity.weaponTwo));
+						Buff buff = new Buff(xx*16, yy*16, 16, 16, Entity.weaponTwo);
+						Game.entities.add(buff);
 
 					}
 					

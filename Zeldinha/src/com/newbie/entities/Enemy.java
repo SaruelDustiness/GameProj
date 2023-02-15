@@ -20,6 +20,8 @@ public class Enemy extends Entity{
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;
 	public int dir;
 	private Boolean blue;
+	public boolean dead = false, stopp = false;
+	public double life = 10;
 
 	private BufferedImage[] rightBlueRun;
 	private BufferedImage[] leftBlueRun;
@@ -119,7 +121,7 @@ public class Enemy extends Entity{
 	
 	public void tick() {
 		
-		if((Game.start) && (!Game.pause) && (!Game.dead)) {
+		if((!dead) && (Game.start) && (!Game.pause) && (!Game.dead)) {
 			//Se o jogo for iniciado, estiver despausado e o jogador não estiver morto,
 			//o inimigo corre até ele.
 			framesRun++;
@@ -134,29 +136,32 @@ public class Enemy extends Entity{
 			if(isCollidingWithPlayer()) {//Se o inimigo estiver colidindo com o jogador, é 
 				//realizada a animação de ataque.
 				
-				framesAtk++;
-				if(framesAtk == maxFramesAtk) {
-					framesAtk = 0;
-					atk++;
-					if(atk == 3) {	//Ao realizar o terceiro frame do ataque, o jogador 
-						//recebe dano aleatório entre 0 e 9.
-						Game.player.life += -Game.rand.nextInt(10);
+				if(!dead) {
+					framesAtk++;
+					if(framesAtk == maxFramesAtk) {
+						framesAtk = 0;
+						atk++;
+						if(atk == 3) {	//Ao realizar o terceiro frame do ataque, o jogador 
+							//recebe dano aleatório entre 0 e 9.
+							Game.player.life += -Game.rand.nextInt(10);
+						}
+						if(atk > maxAtk) {
+							atk = 0;
+						}
+						
+					}else {
+						if(Game.player.life <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
+							//o jogador é morto.
+							Game.dead = true;
+							Player.dead = true;
+						}
+						
 					}
-					if(atk > maxAtk) {
-						atk = 0;
-					}
-					
-				}else {
-					if(Game.player.life <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
-						//o jogador é morto.
-						Game.dead = true;
-						Player.dead = true;
-					}
-					
 				}
+				
 			}
 			
-			if(!isCollidingWithPlayer()) {// Se o jogador não estiver colidindo com o inimigo, 
+			if(!isCollidingWithPlayer() && !dead) {// Se o jogador não estiver colidindo com o inimigo, 
 				//o inimigo irá se mover em sua direção.
 				atk = 0;
 				
@@ -195,18 +200,42 @@ public class Enemy extends Entity{
 				
 			}
 			
-		}else {
+		}else if ((!dead) && (Game.start) && (Game.pause) && (!Game.dead)){
 			//Caso contrário, o inimigo ficará paradinho.
-			
-			framesIdle++;
-			if(framesIdle == maxFramesIdle) {
-				framesIdle = 0;
-				idle++;
-				if(idle > maxIdle) {
-					idle = 0;
+			if(!dead) {
+				
+				framesIdle++;
+				if(framesIdle == maxFramesIdle) {
+					framesIdle = 0;
+					idle++;
+					if(idle > maxIdle) {
+						idle = 0;
+					}
 				}
+				
 			}
 			
+		}else if(((dead) && (!stopp) && (Game.start) && (!Game.pause) && (!Game.dead)) ||
+			((dead) && (!stopp) && (Game.start) && (Game.pause) && (!Game.dead))) {
+			
+			framesDie++;
+			if(framesDie == maxFramesDie) {
+				framesDie = 0;
+				die++;
+				if(Game.pause) {
+					die--;
+				}
+				if(die > maxDie) {
+					die = 6;
+					stopp = true;
+					Game.entities.remove(this);
+					enemyCount--;
+				}
+			}
+		}
+
+		if((enemyCount == 0) && (Game.start)) {
+			Game.win = true;
 		}
 		
 	}
@@ -216,8 +245,11 @@ public class Enemy extends Entity{
 		
 		Rectangle enemyCurrent = new Rectangle(this.getX(), this.getY(), World.TILE_SIZE, World.TILE_SIZE);
 		Rectangle player = new Rectangle(Game.player.getX(), Game.player.getY(), 24, 24);
-		
-		return enemyCurrent.intersects(player);
+		if(!dead) {
+			return enemyCurrent.intersects(player);
+		}else {
+			return !enemyCurrent.intersects(player);
+		}
 		
 	}
 	
@@ -230,7 +262,7 @@ public class Enemy extends Entity{
 			
 			Enemy e = Game.enemies.get(i);
 			
-			if(e == this) {
+			if(e == this && !dead) {
 				
 				continue;
 				
@@ -238,7 +270,7 @@ public class Enemy extends Entity{
 			
 			Rectangle targetEnemy = new Rectangle(e.getX(), e.getY(), World.TILE_SIZE+1, World.TILE_SIZE+1);
 			
-			if(enemyCurrent.intersects(targetEnemy)) {
+			if(enemyCurrent.intersects(targetEnemy) && !dead) {
 				
 				return true;
 				
@@ -250,7 +282,7 @@ public class Enemy extends Entity{
 	
 	public void render(Graphics g) {
 		
-		if((Game.start) && (!Game.pause) && (!Game.dead)) {
+		if((Game.start) && (!Game.pause) && (!Game.dead) && (!dead)) {
 		
 			if(!isCollidingWithPlayer()) { // Inimigo Correndo
 			
@@ -319,7 +351,10 @@ public class Enemy extends Entity{
 					
 			}
 			
-		}else { //Inimigo parado
+		}else if (((Game.start) && (!Game.pause) && (!Game.dead) && (!dead)) || 
+				((Game.start) && (Game.pause) && (!Game.dead) && (!dead)) ||
+				((!Game.start) && (!Game.pause) && (!Game.dead) && (!dead)) ||
+				((Game.start) && (!Game.pause) && (Game.dead) && (!dead))){ //Inimigo parado
 			
 			if(blue) {
 				
@@ -340,6 +375,26 @@ public class Enemy extends Entity{
 			
 			}
 			
+		} else if (((Game.start) && (!Game.pause) && (!Game.dead) && (dead)) ||
+				((Game.start) && (Game.pause) && (!Game.dead) && (dead))) {
+			if(blue) {
+				
+				if(last) {
+					g.drawImage(rightBlueDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+				else if(!last) {
+					g.drawImage(leftBlueDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+			
+			}else {
+				if(last) {
+					g.drawImage(rightBrownDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+				else if(!last) {
+					g.drawImage(leftBrownDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+			
+			}
 		}
 
 //		super.render(g);
