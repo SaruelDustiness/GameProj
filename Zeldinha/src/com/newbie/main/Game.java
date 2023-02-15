@@ -90,7 +90,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	}
 	
 	public void initFrame() {
-		frame = new JFrame("Zeldinha");
+		frame = new JFrame("Felix's Misfortunes - Demo");
 		frame.add(this);
 		frame.setResizable(false);
 		frame.pack();

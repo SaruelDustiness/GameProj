@@ -28,8 +28,6 @@ public class Player extends Entity{
 	private BufferedImage[] leftAtk;
 	private BufferedImage[] rightDead;
 	private BufferedImage[] leftDead;
-	private boolean enemyCheck = false;
-	
 	public static double life = 100, maxLife = 100;
 	public static int buff = 0;
 	
