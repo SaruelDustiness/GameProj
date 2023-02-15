@@ -11,7 +11,7 @@ import com.newbie.world.World;
 public class Enemy extends Entity{
 	
 	private int framesAtk = 0, framesRun = 0, framesIdle = 0, framesDie = 0;
-	private int maxFramesAtk = 6, maxFramesRun = 7, maxFramesIdle = 6, maxFramesDie = 7;
+	private int maxFramesAtk = 10, maxFramesRun = 7, maxFramesIdle = 6, maxFramesDie = 7;
 	private int atk = 0, maxAtk = 5, run = 0, maxRun = 6, idle = 0, maxIdle = 5, die = 0, maxDie = 6;
 	private boolean last = true;
 	public static int enemyCount = 0;
@@ -147,7 +147,6 @@ public class Enemy extends Entity{
 					}
 					
 				}else {
-					
 					if(Game.player.life <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
 						//o jogador é morto.
 						Game.dead = true;
@@ -159,6 +158,7 @@ public class Enemy extends Entity{
 			
 			if(!isCollidingWithPlayer()) {// Se o jogador não estiver colidindo com o inimigo, 
 				//o inimigo irá se mover em sua direção.
+				atk = 0;
 				
 				if(Game.rand.nextInt(100) < 20) { //A velocidade de movimento do inimigo se 
 					//relaciona à chance de um número aleatório entre 0 e 99 ser menor que 20. 
