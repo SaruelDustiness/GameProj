@@ -250,9 +250,9 @@ public class World {
 					}
 					
 //					//Espada
-					else if(pixelAtual == 0xFFA5FF7F) {
-						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.weaponOne));
-					}
+//					else if(pixelAtual == 0xFFA5FF7F) {
+//						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.weaponOne));
+//					}
 					
 //					//Buff
 					else if(pixelAtual == 0xFFFFD27F) {
