@@ -3,6 +3,7 @@ package com.newbie.entities;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
+import com.newbie.graficos.Spritesheet;
 import com.newbie.main.Game;
 import com.newbie.world.Camera;
 import com.newbie.world.World;
@@ -10,8 +11,6 @@ import com.newbie.world.World;
 public class Player extends Entity{
 	
 	public boolean right, up, left, down, atk;
-	public static boolean dead;
-	public boolean stopp = false;
 	public double speed = 1.7;
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;
 	public int dir = right_dir;
@@ -29,11 +28,84 @@ public class Player extends Entity{
 	private BufferedImage[] rightDead;
 	private BufferedImage[] leftDead;
 	public static double life = 100, maxLife = 100;
-	public static int buff = 0;
+	public static int buff = 0, dano, danoCrit = 10;
+	public static Entity enAt;
+	public static boolean atkDmg = false, critDmg = false, stopp = false, dead = false;
+	
+	public double getLife() {
+		return life;
+	}
+
+	public void setLife(double life) {
+		this.life = life;
+	}
+
+	public double getMaxLife() {
+		return maxLife;
+	}
+
+	public void setMaxLife(double maxLife) {
+		this.maxLife = maxLife;
+	}
+
+	public int getBuff() {
+		return buff;
+	}
+
+	public void setBuff(int buff) {
+		this.buff = buff;
+	}
+
+	public int getDano() {
+		return dano;
+	}
+
+	public void setDano(int dano) {
+		this.dano = dano;
+	}
+
+	public int getDanoCrit() {
+		return danoCrit;
+	}
+
+	public void setDanoCrit(int danoCrit) {
+		this.danoCrit = danoCrit;
+	}
+
+	public boolean isAtkDmg() {
+		return atkDmg;
+	}
+
+	public void setAtkDmg(boolean atkDmg) {
+		this.atkDmg = atkDmg;
+	}
+
+	public boolean isCritDmg() {
+		return critDmg;
+	}
+
+	public void setCritDmg(boolean critDmg) {
+		this.critDmg = critDmg;
+	}
+
+	public boolean isStopp() {
+		return stopp;
+	}
+
+	public void setStopp(boolean stopp) {
+		this.stopp = stopp;
+	}
+
+	public boolean isDead() {
+		return dead;
+	}
+
+	public void setDead(boolean dead) {
+		this.dead = dead;
+	}
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite) {
 		super(x, y, width, height, sprite);
-		// TODO Auto-generated constructor stub
 		
 		rightPlayer = new BufferedImage[8];
 		leftPlayer = new BufferedImage[8];
@@ -129,16 +201,24 @@ public class Player extends Entity{
 						Entity atual = Game.entities.get(i);
 						if(atual instanceof Enemy) {
 							if(((Enemy) atual).isCollidingWithPlayer()){
-								int dano = Game.rand.nextInt(7)+1;
+								enAt = atual;
+								dano = Game.rand.nextInt(7)+1;
 								int chance = Game.rand.nextInt(100)+1;
-								if((chance < 10) && (buff == 0)){
-									((Enemy) atual).life += -10;
+								if((chance <= 10) && (buff == 0)){
+									((Enemy) atual).life += -danoCrit;
+									((Enemy) atual).dmgTkn = danoCrit;
+									critDmg = true;
+									System.out.println(((Enemy) atual).dmgTkn);
 									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
 								}else if((chance > 10) && (buff == 0)){
 									((Enemy) atual).life += -dano;
+									((Enemy) atual).dmgTkn = dano;
+									atkDmg = true;
 									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
 								}else if((buff > 0)) {
-									((Enemy) atual).life += -10;
+									((Enemy) atual).life += -danoCrit;
+									((Enemy) atual).dmgTkn = danoCrit;
+									critDmg = true;
 									buff--;
 									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
 								}
@@ -151,6 +231,8 @@ public class Player extends Entity{
 				}
 				if(iAtk > maxIAtk) {
 					iAtk = 0;
+					atkDmg = false;
+					critDmg = false;
 					atk = false;
 				}
 			}
@@ -166,6 +248,32 @@ public class Player extends Entity{
 					stopp = true;
 				}
 			}
+		}
+		
+		if(Game.restart) {
+			Game.start = false;
+			Game.pause = false;
+			Game.dead = false;
+			Game.win = false;
+			Game.restart = false;
+			atkDmg = false;
+			critDmg = false;
+			stopp = false;
+			dead = false;
+			Game.entities.remove(this);
+			Game.objects = new Spritesheet("/objects.png");
+			Game.enemyOne = new Spritesheet("/bluemush.png");
+			Game.enemyTwo = new Spritesheet("/brownmush.png");
+			Game.charAnim = new Spritesheet("/charAnim.png");
+			Game.atkDie = new Spritesheet("/atkdie.png");
+			Game.player = new Player(0, 0, 16, 16, Game.charAnim.getSprite(70, 0, 24, 24));
+			Game.entities.add(Game.player);
+			Game.summerMap = new Spritesheet("/mapSummer.png");
+			Game.inside = new Spritesheet("/inside.png");
+			Game.items = new Spritesheet("/sumitems.png");
+			Game.tileMap = new Spritesheet("/tilemap.png");
+			Game.world = new World("/newMap2.png");
+			return;
 		}
 		
 		this.checkHealCollision();

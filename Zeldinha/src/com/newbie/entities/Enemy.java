@@ -21,7 +21,7 @@ public class Enemy extends Entity{
 	public int dir;
 	private Boolean blue;
 	public boolean dead = false, stopp = false;
-	public double life = 10;
+	public double life = 10, dmgTkn;
 
 	private BufferedImage[] rightBlueRun;
 	private BufferedImage[] leftBlueRun;
@@ -200,10 +200,11 @@ public class Enemy extends Entity{
 				
 			}
 			
-		}else if ((!dead) && (Game.start) && (Game.pause) && (!Game.dead)){
+		}else if (((!dead) && (Game.start) && (Game.pause) && (!Game.dead))||
+				((!dead) && (!Game.start) && (!Game.pause) && (!Game.dead))||
+				((!dead) && (Game.start) && (!Game.pause) && (Game.dead))){
 			//Caso contrário, o inimigo ficará paradinho.
-			if(!dead) {
-				
+			if(!stopp) {
 				framesIdle++;
 				if(framesIdle == maxFramesIdle) {
 					framesIdle = 0;
@@ -381,17 +382,29 @@ public class Enemy extends Entity{
 				
 				if(last) {
 					g.drawImage(rightBlueDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					if(die == 6) {
+						g.drawImage(null, 0, 0, null);
+					}
 				}
 				else if(!last) {
 					g.drawImage(leftBlueDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					if(die == 6) {
+						g.drawImage(null, 0, 0, null);
+					}
 				}
 			
 			}else {
 				if(last) {
 					g.drawImage(rightBrownDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					if(die == 6) {
+						g.drawImage(null, 0, 0, null);
+					}
 				}
 				else if(!last) {
 					g.drawImage(leftBrownDie[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					if(die == 6) {
+						g.drawImage(null, 0, 0, null);
+					}
 				}
 			
 			}

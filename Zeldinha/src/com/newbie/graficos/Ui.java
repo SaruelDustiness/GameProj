@@ -5,8 +5,10 @@ import java.awt.Font;
 import java.awt.Graphics;
 
 import com.newbie.entities.Enemy;
+import com.newbie.entities.Entity;
 import com.newbie.entities.Player;
 import com.newbie.main.Game;
+import com.newbie.world.Camera;
 
 public class Ui {
 	
@@ -41,6 +43,26 @@ public class Ui {
 			
 		}
 		
+		
+		s.setColor(Color.cyan); // crit
+		s.setFont(new Font("arial", Font.BOLD, 16));
+		g.setColor(Color.red); // dano
+		g.setFont(new Font("arial", Font.BOLD, 16));
+		if(Player.atkDmg && !Player.critDmg) {
+			Entity atual = Player.enAt;
+			if(atual instanceof Enemy) {
+				g.drawString((int)((Enemy) atual).dmgTkn+"", ((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6);
+			}
+		}else if(Player.critDmg && !Player.atkDmg) {
+			Entity atual = Player.enAt;
+			if(atual instanceof Enemy) {
+				s.drawString((int)((Enemy) atual).dmgTkn+"", ((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6);
+			}
+		}else if(!Player.atkDmg && !Player.critDmg) {
+			g.drawString("", 0, 0);
+			s.drawString("", 0, 0);
+		}
+		
 		g.setColor(Color.red);
 		g.fillRect(8, 4, 50, 8);
 		
@@ -64,7 +86,9 @@ public class Ui {
 		g.setFont(new Font("arial", Font.BOLD, 10));
 		g.drawString("Crit 100%: "+Player.buff, 278, 236);
 		
-		
+		g.setColor(Color.white);
+		g.setFont(new Font("arial", Font.BOLD, 10));
+		g.drawString("FPS: "+Game.frames, 8, 236);
 		
 	}
 

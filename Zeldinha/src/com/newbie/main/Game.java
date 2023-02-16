@@ -43,6 +43,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static final int HEIGHT = 240;
 	private final int SCALE = 2;
 	private BufferedImage image;
+	public static int frames = 0;
 	
 	public static List<Entity> entities;
 	public static List<Enemy> enemies;
@@ -57,9 +58,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static World world;
 	public static Player player;
 	public static Random rand;
+	public double life1 = 100;
 	
-	public static boolean last = true;
-	public static boolean start = false, pause = false, dead = false, win = false;
+	public static boolean last = true, start = false, pause = false, dead = false, win = false, restart = false;
 	
 	public Ui ui;
 	
@@ -175,6 +176,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			}
 			
 			if(System.currentTimeMillis() - timer >= 1000) {
+				Game.frames = frames;
 				System.out.println("FPS: " + frames);
 				frames = 0;
 				timer += 1000;
@@ -218,7 +220,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			
 		}else if((e.getKeyCode() == KeyEvent.VK_R) && (((!pause) && (start) && (dead)) || (win))) {
 			
-			
+			restart = true;
 			
 		}
 		
