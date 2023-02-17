@@ -6,7 +6,6 @@ import java.awt.Graphics;
 
 import com.newbie.entities.Enemy;
 import com.newbie.entities.Entity;
-import com.newbie.entities.Player;
 import com.newbie.main.Game;
 import com.newbie.world.Camera;
 
@@ -48,17 +47,17 @@ public class Ui {
 		s.setFont(new Font("arial", Font.BOLD, 16));
 		g.setColor(Color.red); // dano
 		g.setFont(new Font("arial", Font.BOLD, 16));
-		if(Player.atkDmg && !Player.critDmg) {
-			Entity atual = Player.enAt;
+		if(Game.player.isAtkDmg() && !Game.player.isCritDmg()) {
+			Entity atual = Game.player.getEnAt();
 			if(atual instanceof Enemy) {
 				g.drawString((int)((Enemy) atual).dmgTkn+"", ((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6);
 			}
-		}else if(Player.critDmg && !Player.atkDmg) {
-			Entity atual = Player.enAt;
+		}else if(Game.player.isCritDmg() && !Game.player.isAtkDmg()) {
+			Entity atual = Game.player.getEnAt();
 			if(atual instanceof Enemy) {
 				s.drawString((int)((Enemy) atual).dmgTkn+"", ((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6);
 			}
-		}else if(!Player.atkDmg && !Player.critDmg) {
+		}else if(!Game.player.isAtkDmg() && !Game.player.isCritDmg()) {
 			g.drawString("", 0, 0);
 			s.drawString("", 0, 0);
 		}
@@ -67,24 +66,24 @@ public class Ui {
 		g.fillRect(8, 4, 50, 8);
 		
 		g.setColor(Color.green);
-		g.fillRect(8, 4, (int)((Player.life/Player.maxLife)*50), 8);
+		g.fillRect(8, 4, (int)((Game.player.getLife()/Game.player.getMaxLife())*50), 8);
 		
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 8));
-		if(Player.life <= 0) {
-			Player.life = 0;
-			g.drawString((int)Player.life+"/"+(int)Player.maxLife, 60, 11);
+		if(Game.player.getLife() <= 0) {
+			Game.player.setLife(0);
+			g.drawString((int)Game.player.getLife()+"/"+(int)Game.player.getMaxLife(), 60, 11);
 		}else {
-			g.drawString((int)Player.life+"/"+(int)Player.maxLife, 60, 11);
+			g.drawString((int)Game.player.getLife()+"/"+(int)Game.player.getMaxLife(), 60, 11);
 		}
 		
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 10));
-		g.drawString("Inimigos: "+Enemy.enemyCount, 278, 11);
+		g.drawString("Inimigos: "+(int)(Game.blueEnemies.size()+Game.brownEnemies.size()), 278, 11);
 		
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 10));
-		g.drawString("Crit 100%: "+Player.buff, 278, 236);
+		g.drawString("Crit 100%: "+Game.player.getBuff(), 278, 236);
 		
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 10));

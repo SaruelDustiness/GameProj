@@ -27,17 +27,34 @@ public class Player extends Entity{
 	private BufferedImage[] leftAtk;
 	private BufferedImage[] rightDead;
 	private BufferedImage[] leftDead;
-	public static double life = 100, maxLife = 100;
-	public static int buff = 0, dano, danoCrit = 10;
-	public static Entity enAt;
-	public static boolean atkDmg = false, critDmg = false, stopp = false, dead = false;
+	private double life = 100, maxLife = 100;
+	private int buff = 0, dano, danoCrit = 10, enemyCount = 0;
+	public Entity enAt;
+	private int entityCount = 0;
+	private boolean atkDmg = false, critDmg = false, stopp = false, dead = false;
+	
+	public int getEntityCount() {
+		return entityCount;
+	}
+
+	public void setEntityCount(int entityCount) {
+		this.entityCount += entityCount;
+	}
+	
+	public Entity getEnAt() {
+		return enAt;
+	}
+
+	public void setEnAt(Entity enAt) {
+		this.enAt = enAt;
+	}
 	
 	public double getLife() {
 		return life;
 	}
 
 	public void setLife(double life) {
-		this.life = life;
+		this.life += life;
 	}
 
 	public double getMaxLife() {
@@ -197,8 +214,8 @@ public class Player extends Entity{
 				framesAtk = 0;
 				iAtk++;
 				if(iAtk == 2) {	//Ao realizar o terceiro frame do ataque, o jogador 
-					for(int i = 0; i < Game.entities.size(); i++) {
-						Entity atual = Game.entities.get(i);
+					for(int i = 0; i < Game.livingEntities.size(); i++) {
+						Entity atual = Game.livingEntities.get(i);
 						if(atual instanceof Enemy) {
 							if(((Enemy) atual).isCollidingWithPlayer()){
 								enAt = atual;
@@ -251,6 +268,19 @@ public class Player extends Entity{
 		}
 		
 		if(Game.restart) {
+			for(int i = Game.livingEntities.size()-1; i >= 0; i--) {
+				Game.livingEntities.remove(i);
+			}
+			for(int i = Game.staticEntities.size()-1; i >= 0; i--) {
+				Game.staticEntities.remove(i);
+			}
+			for(int i = Game.blueEnemies.size()-1; i >= 0; i--){
+				Game.blueEnemies.remove(i);
+			}
+			for(int i = Game.brownEnemies.size()-1; i >= 0; i--){
+				Game.brownEnemies.remove(i);
+			}
+			Game.livingEntities.remove(this);
 			Game.start = false;
 			Game.pause = false;
 			Game.dead = false;
@@ -260,14 +290,13 @@ public class Player extends Entity{
 			critDmg = false;
 			stopp = false;
 			dead = false;
-			Game.entities.remove(this);
 			Game.objects = new Spritesheet("/objects.png");
 			Game.enemyOne = new Spritesheet("/bluemush.png");
 			Game.enemyTwo = new Spritesheet("/brownmush.png");
 			Game.charAnim = new Spritesheet("/charAnim.png");
 			Game.atkDie = new Spritesheet("/atkdie.png");
 			Game.player = new Player(0, 0, 16, 16, Game.charAnim.getSprite(70, 0, 24, 24));
-			Game.entities.add(Game.player);
+			Game.livingEntities.add(Game.player);
 			Game.summerMap = new Spritesheet("/mapSummer.png");
 			Game.inside = new Spritesheet("/inside.png");
 			Game.items = new Spritesheet("/sumitems.png");
@@ -286,8 +315,8 @@ public class Player extends Entity{
 	
 	public void checkHealCollision() {
 		
-		for(int i = 0; i < Game.entities.size(); i++) {
-			Entity atual = Game.entities.get(i);
+		for(int i = 0; i < Game.staticEntities.size(); i++) {
+			Entity atual = Game.staticEntities.get(i);
 			if(atual instanceof Heal) {
 				if(Entity.isCollidingHeal(this, atual)){
 					life+=10;
@@ -296,7 +325,7 @@ public class Player extends Entity{
 						life = 100;
 					}
 					
-					Game.entities.remove(i);
+					Game.staticEntities.remove(i);
 				}
 			}
 		}
@@ -305,14 +334,14 @@ public class Player extends Entity{
 	
 	public void checkBuffCollision() {
 		
-		for(int i = 0; i < Game.entities.size(); i++) {
-			Entity atual = Game.entities.get(i);
+		for(int i = 0; i < Game.staticEntities.size(); i++) {
+			Entity atual = Game.staticEntities.get(i);
 			if(atual instanceof Buff) {
 				if(Entity.isCollidingBuff(this, atual)){
 					
 					buff+=5;
 					
-					Game.entities.remove(i);
+					Game.staticEntities.remove(i);
 				}
 			}
 		}
@@ -365,6 +394,14 @@ public class Player extends Entity{
 				g.drawImage(sLeftPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 		}
+	}
+
+	public int getEnemyCount() {
+		return enemyCount;
+	}
+
+	public void setEnemyCount(int enemyCount) {
+		this.enemyCount += enemyCount;
 	}
 	
 }

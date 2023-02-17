@@ -220,15 +220,18 @@ public class World {
 						
 						if(((int)(Game.rand.nextInt(10))%2==0)) {
 							//Inimigo Azul
-							Game.entities.add(enBlue);
-							Game.enemies.add(enBlue);
-							Enemy.enemyCount++;
+							Game.livingEntities.add(enBlue);
+							Game.blueEnemies.add(enBlue);
+							Game.player.setEnemyCount(+1);
+							Game.player.setEntityCount(+1);
+							
 						}
 						else {
 							//Inimigo Marrom
-							Game.entities.add(enBrown);
-							Game.enemies.add(enBrown);
-							Enemy.enemyCount++;
+							Game.livingEntities.add(enBrown);
+							Game.brownEnemies.add(enBrown);
+							Game.player.setEnemyCount(+1);
+							Game.player.setEntityCount(+1);
 						}
 						
 					}
@@ -246,7 +249,8 @@ public class World {
 							}
 						}
 						Heal heal = new Heal(xx*16, yy*16, 16, 16, Entity.apple);
-						Game.entities.add(heal);
+						Game.staticEntities.add(heal);
+						Game.player.setEntityCount(+1);
 					}
 					
 //					//Espada
@@ -257,7 +261,8 @@ public class World {
 //					//Buff
 					else if(pixelAtual == 0xFFFFD27F) {
 						Buff buff = new Buff(xx*16, yy*16, 16, 16, Entity.weaponTwo);
-						Game.entities.add(buff);
+						Game.staticEntities.add(buff);
+						Game.player.setEntityCount(+1);
 
 					}
 					

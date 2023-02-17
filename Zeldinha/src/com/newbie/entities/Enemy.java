@@ -14,7 +14,6 @@ public class Enemy extends Entity{
 	private int maxFramesAtk = 10, maxFramesRun = 7, maxFramesIdle = 6, maxFramesDie = 7;
 	private int atk = 0, maxAtk = 5, run = 0, maxRun = 6, idle = 0, maxIdle = 5, die = 0, maxDie = 6;
 	private boolean last = true;
-	public static int enemyCount = 0;
 	
 	private double speed = 1;
 	public int right_dir = 0, left_dir = 1, up_dir = 2, down_dir = 3;
@@ -143,17 +142,17 @@ public class Enemy extends Entity{
 						atk++;
 						if(atk == 3) {	//Ao realizar o terceiro frame do ataque, o jogador 
 							//recebe dano aleatório entre 0 e 9.
-							Player.life += -Game.rand.nextInt(10);
+							Game.player.setLife(-(Game.rand.nextInt(10) + 1));
 						}
 						if(atk > maxAtk) {
 							atk = 0;
 						}
 						
 					}else {
-						if(Player.life <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
+						if(Game.player.getLife() <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
 							//o jogador é morto.
 							Game.dead = true;
-							Player.dead = true;
+							Game.player.setDead(true);
 						}
 						
 					}
@@ -229,13 +228,18 @@ public class Enemy extends Entity{
 				if(die > maxDie) {
 					die = 6;
 					stopp = true;
-					Game.entities.remove(this);
-					enemyCount--;
+					Game.livingEntities.remove(this);
+					if(blue) {
+						Game.blueEnemies.remove(this);
+					}else {
+						Game.brownEnemies.remove(this);
+					}
+					Game.player.setEnemyCount(-1);
 				}
 			}
 		}
 
-		if((enemyCount == 0) && (Game.start)) {
+		if((Game.player.getEnemyCount() == 0) && (Game.start)) {
 			Game.win = true;
 		}
 		
@@ -259,9 +263,28 @@ public class Enemy extends Entity{
 		
 		Rectangle enemyCurrent = new Rectangle(xNext, yNext, World.TILE_SIZE, World.TILE_SIZE);
 		
-		for(int i = 0; i< Game.enemies.size(); i++) {
+		for(int i = 0; i< Game.blueEnemies.size(); i++) {
 			
-			Enemy e = Game.enemies.get(i);
+			Enemy e = Game.blueEnemies.get(i);
+			
+			if(e == this && !dead) {
+				
+				continue;
+				
+			}
+			
+			Rectangle targetEnemy = new Rectangle(e.getX(), e.getY(), World.TILE_SIZE+1, World.TILE_SIZE+1);
+			
+			if(enemyCurrent.intersects(targetEnemy) && !dead) {
+				
+				return true;
+				
+			}
+		}
+		
+		for(int i = 0; i< Game.brownEnemies.size(); i++) {
+			
+			Enemy e = Game.brownEnemies.get(i);
 			
 			if(e == this && !dead) {
 				

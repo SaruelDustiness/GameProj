@@ -45,8 +45,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	private BufferedImage image;
 	public static int frames = 0;
 	
-	public static List<Entity> entities;
-	public static List<Enemy> enemies;
+	public static List<Entity> staticEntities;
+	public static List<Entity> livingEntities;
+	public static List<Enemy> blueEnemies;
+	public static List<Enemy> brownEnemies;
 	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside, items;
 	
 //	public static Spritesheet atkdie;
@@ -58,7 +60,6 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static World world;
 	public static Player player;
 	public static Random rand;
-	public double life1 = 100;
 	
 	public static boolean last = true, start = false, pause = false, dead = false, win = false, restart = false;
 	
@@ -70,8 +71,10 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
 		initFrame();
 		//Inicializando objetos
-		entities = new ArrayList<Entity>();
-		enemies = new ArrayList<Enemy>();
+		livingEntities = new ArrayList<Entity>();
+		staticEntities = new ArrayList<Entity>();
+		blueEnemies = new ArrayList<Enemy>();
+		brownEnemies = new ArrayList<Enemy>();
 		
 		ui = new Ui();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -81,7 +84,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		charAnim = new Spritesheet("/charAnim.png");
 		atkDie = new Spritesheet("/atkdie.png");
 		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 24, 24));
-		entities.add(player);
+		livingEntities.add(player);
 		summerMap = new Spritesheet("/mapSummer.png");
 		inside = new Spritesheet("/inside.png");
 		items = new Spritesheet("/sumitems.png");
@@ -121,12 +124,13 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	}
 	
 	public void tick() {
-		for (int i = 0; i < entities.size(); i++){
-			Entity e = entities.get(i);
-//			if(e instanceof Player) {
-//				
-//			}
-			e.tick();
+		for (int i = 0; i < livingEntities.size(); i++){
+			Entity lE = livingEntities.get(i);
+			lE.tick();
+		}
+		for (int i = 0; i < staticEntities.size(); i++){
+			Entity sE = staticEntities.get(i);
+			sE.tick();
 		}
 	}
 	
@@ -145,9 +149,13 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		
 		//Graphics2D g2 = (Graphics2D) g;
 		world.render(g);
-		for (int i = 0; i < entities.size(); i++){
-			Entity e = entities.get(i);
-			e.render(g);
+		for (int i = 0; i < livingEntities.size(); i++){
+			Entity lE = livingEntities.get(i);
+			lE.render(g);
+		}
+		for (int i = 0; i < staticEntities.size(); i++){
+			Entity sE = staticEntities.get(i);
+			sE.render(g);
 		}
 		ui.render(g, s);
 		g.dispose();
