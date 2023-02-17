@@ -54,7 +54,11 @@ public class Player extends Entity{
 	}
 
 	public void setLife(double life) {
-		this.life += life;
+		if(life == 0) {
+			this.life = 0;
+		}else {
+			this.life += life;
+		}
 	}
 
 	public double getMaxLife() {
