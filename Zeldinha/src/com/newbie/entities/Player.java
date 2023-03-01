@@ -17,6 +17,7 @@ public class Player extends Entity{
 	
 	private int framesIdle = 0, framesRun = 0, framesAtk = 0, maxFramesAtk = 5, maxFramesIdle = 20, maxFramesRun = 4, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
 	private int framesDie = 0, maxFramesDie = 6, die = 0, maxDie = 3;
+	private int dmgFrames = 0;
 	private int iAtk = 0, maxIAtk = 4;
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
@@ -27,11 +28,21 @@ public class Player extends Entity{
 	private BufferedImage[] leftAtk;
 	private BufferedImage[] rightDead;
 	private BufferedImage[] leftDead;
+	private BufferedImage[] rightDmg;
+	private BufferedImage[] leftDmg;
 	private double life = 100, maxLife = 100;
 	private int buff = 0, dano, danoCrit = 10, enemyCount = 0;
 	public Entity enAt;
 	private int entityCount = 0;
-	private boolean atkDmg = false, critDmg = false, stopp = false, dead = false;
+	private boolean atkDmg = false, critDmg = false, stopp = false, dead = false, atked = false;
+	
+	public boolean getAtked() {
+		return atked;
+	}
+	
+	public void setAtked(boolean atked) {
+		this.atked = atked;
+	}
 	
 	public int getEntityCount() {
 		return entityCount;
@@ -136,6 +147,12 @@ public class Player extends Entity{
 		rightAtk = new BufferedImage[5];
 		leftDead = new BufferedImage[4];
 		rightDead = new BufferedImage[4];
+		rightDmg = new BufferedImage[1];
+		leftDmg = new BufferedImage[1];
+		
+		rightDmg[0] = Game.charAnim.getSprite(96, 0, 24, 24);
+		leftDmg[0] = Game.charAnim.getSprite(120, 0, 24, 24);
+		
 		
 		for(int i = 0; i < 8; i++) {
 			rightPlayer[i] = Game.charAnim.getSprite(0 + (i*24), 48, 24, 24);
@@ -271,6 +288,14 @@ public class Player extends Entity{
 			}
 		}
 		
+		if(atked) {
+			this.dmgFrames++;
+			if(this.dmgFrames == 8) {
+				this.dmgFrames = 0;
+				atked = false;
+			}
+		}
+		
 		if(Game.restart) {
 			for(int i = Game.livingEntities.size()-1; i >= 0; i--) {
 				Game.livingEntities.remove(i);
@@ -361,41 +386,52 @@ public class Player extends Entity{
 			g.drawImage(leftDead[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		
-		if((dir == right_dir) && (moved)) {
-			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-		else if((dir == left_dir) && (moved)) {
-			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-
-		if((dir == up_dir) && (Game.last && moved)) {
-			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-		else if((dir == down_dir) && (!Game.last && moved)) {
-			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-		
-		if((dir == down_dir) && (Game.last && moved)) {
-			g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-		else if((dir == up_dir) && (!Game.last && moved)) {
-			g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
-		}
-		
-		if(Game.last && !moved && !dead) {
-			if(atk) {
-				g.drawImage(rightAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+		if(!atked) {
+			
+			if((dir == right_dir) && (moved)) {
+				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+			else if((dir == left_dir) && (moved)) {
+				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+	
+			if((dir == up_dir) && (Game.last && moved)) {
+				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+			else if((dir == down_dir) && (!Game.last && moved)) {
+				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+			
+			if((dir == down_dir) && (Game.last && moved)) {
+				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+			else if((dir == up_dir) && (!Game.last && moved)) {
+				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+			}
+			
+			if(Game.last && !moved && !dead) {
+				if(atk) {
+					g.drawImage(rightAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+				else {
+					g.drawImage(sRightPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+			}
+			else if(!Game.last && !moved && !dead) {
+				if(atk) {
+					g.drawImage(leftAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+				else {
+					g.drawImage(sLeftPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				}
+			}
+			
+		}else {
+			if(Game.last) {
+				g.drawImage(rightDmg[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 			else {
-				g.drawImage(sRightPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
-			}
-		}
-		else if(!Game.last && !moved && !dead) {
-			if(atk) {
-				g.drawImage(leftAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
-			}
-			else {
-				g.drawImage(sLeftPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				g.drawImage(leftDmg[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 		}
 	}

@@ -143,11 +143,11 @@ public class Enemy extends Entity{
 						if(atk == 3) {	//Ao realizar o terceiro frame do ataque, o jogador 
 							//recebe dano aleatório entre 0 e 9.
 							Game.player.setLife(-(Game.rand.nextInt(10) + 1));
+							Game.player.setAtked(true);
 						}
 						if(atk > maxAtk) {
 							atk = 0;
 						}
-						
 					}else {
 						if(Game.player.getLife() <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
 							//o jogador é morto.
