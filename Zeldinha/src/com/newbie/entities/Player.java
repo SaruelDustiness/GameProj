@@ -4,6 +4,8 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import com.newbie.graficos.Spritesheet;
+import com.newbie.main.GameExe;
+import com.newbie.main.AtkFunc;
 import com.newbie.main.Game;
 import com.newbie.world.Camera;
 import com.newbie.world.World;
@@ -19,6 +21,7 @@ public class Player extends Entity{
 	private int framesDie = 0, maxFramesDie = 6, die = 0, maxDie = 3;
 	private int dmgFrames = 0;
 	private int iAtk = 0, maxIAtk = 4;
+	private int iSwd = 0, maxISwd = 2, framesSwd = 0, maxFramesSwd = 4;
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
@@ -30,11 +33,34 @@ public class Player extends Entity{
 	private BufferedImage[] leftDead;
 	private BufferedImage[] rightDmg;
 	private BufferedImage[] leftDmg;
+	private BufferedImage[] rightSword;
+	private BufferedImage[] leftSword;
+	private BufferedImage[] rightBuff;
+	private BufferedImage[] leftBuff;
+	
 	private double life = 100, maxLife = 100;
-	private int buff = 0, dano, danoCrit = 10, enemyCount = 0;
+	public int buff = 0;
+	public int dano;
+	public int danoCrit = 10;
+	private int enemyCount = 0;
 	public Entity enAt;
 	private int entityCount = 0;
-	private boolean atkDmg = false, critDmg = false, stopp = false, dead = false, atked = false;
+	public boolean atkDmg = false;
+	public boolean critDmg = false;
+	private boolean stopp = false;
+	private boolean dead = false;
+	private boolean atked = false;
+	private boolean equip = false;
+	private boolean isBuff = false;
+	
+	
+	public boolean isEquip() {
+		return equip;
+	}
+	
+	public void setEquip(boolean equip) {
+		this.equip = equip;
+	}
 	
 	public boolean getAtked() {
 		return atked;
@@ -149,6 +175,10 @@ public class Player extends Entity{
 		rightDead = new BufferedImage[4];
 		rightDmg = new BufferedImage[1];
 		leftDmg = new BufferedImage[1];
+		rightSword = new BufferedImage[1];
+		leftSword = new BufferedImage[1];
+		rightBuff = new BufferedImage[4];
+		leftBuff = new BufferedImage[4];
 		
 		rightDmg[0] = Game.charAnim.getSprite(96, 0, 24, 24);
 		leftDmg[0] = Game.charAnim.getSprite(120, 0, 24, 24);
@@ -185,22 +215,22 @@ public class Player extends Entity{
 		
 		moved = false;
 		
-		if((right) && (World.isFree((int)(x+speed),this.getY())) && (!Game.dead) && (!Game.win)) {
+		if((right) && (World.isFree((int)(x+speed),this.getY())) && GameExe.isPlaying()) {
 			moved = true;
 			dir = right_dir;
 			x+=speed;
 		}
-		else if((left) && (World.isFree((int)(x-speed),this.getY())) && (!Game.dead) && (!Game.win)) {
+		else if((left) && (World.isFree((int)(x-speed),this.getY())) && (GameExe.isPlaying())) {
 			moved = true;
 			dir = left_dir;
 			x-=speed;
 		}
-		if((up) && (World.isFree(this.getX(),(int)(y-speed))) && (!Game.dead) && (!Game.win)) {
+		if((up) && (World.isFree(this.getX(),(int)(y-speed))) && (GameExe.isPlaying())) {
 			moved = true;
 			dir = up_dir;
 			y-=speed;
 		}
-		else if((down) && (World.isFree(this.getX(),(int)(y+speed))) && (!Game.dead) && (!Game.win)) {
+		else if((down) && (World.isFree(this.getX(),(int)(y+speed))) && (GameExe.isPlaying())) {
 			moved = true;
 			dir = down_dir;
 			y+=speed;
@@ -228,50 +258,35 @@ public class Player extends Entity{
 				}
 			}
 		}
+		if(buff>0) {
+			isBuff = true;
+		}else {
+			isBuff = false;
+		}
 		//Animação de ataque
-		if(atk && !dead) {
+		if(atk && !dead && equip) {
 			framesAtk++;
 			if(framesAtk == maxFramesAtk) {
 				framesAtk = 0;
 				iAtk++;
 				if(iAtk == 2) {	//Ao realizar o terceiro frame do ataque, o jogador 
-					for(int i = 0; i < Game.livingEntities.size(); i++) {
-						Entity atual = Game.livingEntities.get(i);
-						if(atual instanceof Enemy) {
-							if(((Enemy) atual).isCollidingWithPlayer()){
-								enAt = atual;
-								dano = Game.rand.nextInt(7)+1;
-								int chance = Game.rand.nextInt(100)+1;
-								if((chance <= 10) && (buff == 0)){
-									((Enemy) atual).life += -danoCrit;
-									((Enemy) atual).dmgTkn = danoCrit;
-									critDmg = true;
-									System.out.println(((Enemy) atual).dmgTkn);
-									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
-								}else if((chance > 10) && (buff == 0)){
-									((Enemy) atual).life += -dano;
-									((Enemy) atual).dmgTkn = dano;
-									atkDmg = true;
-									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
-								}else if((buff > 0)) {
-									((Enemy) atual).life += -danoCrit;
-									((Enemy) atual).dmgTkn = danoCrit;
-									critDmg = true;
-									buff--;
-									System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
-								}
-								if(((Enemy) atual).life <= 0) {
-									((Enemy) atual).dead = true;
-								}
-							}
-						}
-					}
+					AtkFunc.atack();
 				}
 				if(iAtk > maxIAtk) {
 					iAtk = 0;
 					atkDmg = false;
 					critDmg = false;
 					atk = false;
+				}
+			}
+		}
+		if(atk && !dead && equip) {
+			framesSwd++;
+			if(framesSwd == maxFramesSwd) {
+				framesSwd = 0;
+				iSwd++;
+				if(iSwd > maxISwd) {
+					iSwd = 0;
 				}
 			}
 		}
@@ -296,7 +311,7 @@ public class Player extends Entity{
 			}
 		}
 		
-		if(Game.restart) {
+		if(GameExe.getRestart()) {
 			for(int i = Game.livingEntities.size()-1; i >= 0; i--) {
 				Game.livingEntities.remove(i);
 			}
@@ -310,11 +325,11 @@ public class Player extends Entity{
 				Game.brownEnemies.remove(i);
 			}
 			Game.livingEntities.remove(this);
-			Game.start = false;
-			Game.pause = false;
-			Game.dead = false;
-			Game.win = false;
-			Game.restart = false;
+			GameExe.setStart(false);
+			GameExe.setPause(false);
+			GameExe.setDead(false);
+			GameExe.setWin(false);
+			GameExe.setRestart(false);
 			atkDmg = false;
 			critDmg = false;
 			stopp = false;
@@ -336,6 +351,7 @@ public class Player extends Entity{
 		
 		this.checkHealCollision();
 		this.checkBuffCollision();
+		this.checkWeaponCollision();
 		
 		//Camera
 		Camera.x = Camera.clamp(this.getX() - (Game.WIDTH/2),0,World.WIDTH*16 - Game.WIDTH);
@@ -367,8 +383,22 @@ public class Player extends Entity{
 			Entity atual = Game.staticEntities.get(i);
 			if(atual instanceof Buff) {
 				if(Entity.isCollidingBuff(this, atual)){
-					
 					buff+=5;
+					
+					Game.staticEntities.remove(i);
+				}
+			}
+		}
+		
+	}
+	
+	public void checkWeaponCollision() {
+		
+		for(int i = 0; i < Game.staticEntities.size(); i++) {
+			Entity atual = Game.staticEntities.get(i);
+			if(atual instanceof Weapon) {
+				if(Entity.isCollidingBuff(this, atual)){
+					equip = true;
 					
 					Game.staticEntities.remove(i);
 				}
@@ -379,10 +409,10 @@ public class Player extends Entity{
 	
 	public void render(Graphics g) {
 		
-		if(dead && Game.last) {
+		if(dead && GameExe.isLast()) {
 			g.drawImage(rightDead[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
-		else if(dead && !Game.last) {
+		else if(dead && !GameExe.isLast()) {
 			g.drawImage(leftDead[die], this.getX() - Camera.x, this.getY() - Camera.y, null);
 		}
 		
@@ -395,31 +425,41 @@ public class Player extends Entity{
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 	
-			if((dir == up_dir) && (Game.last && moved)) {
+			if((dir == up_dir) && (GameExe.isLast() && moved)) {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
-			else if((dir == down_dir) && (!Game.last && moved)) {
+			else if((dir == down_dir) && (!GameExe.isLast() && moved)) {
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 			
-			if((dir == down_dir) && (Game.last && moved)) {
+			if((dir == down_dir) && (GameExe.isLast() && moved)) {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
-			else if((dir == up_dir) && (!Game.last && moved)) {
+			else if((dir == up_dir) && (!GameExe.isLast() && moved)) {
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 			
-			if(Game.last && !moved && !dead) {
+			if(GameExe.isLast() && !moved && !dead) {
 				if(atk) {
 					g.drawImage(rightAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					if(isBuff) {
+						g.drawImage(rightBuff[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else {
+						g.drawImage(rightSword[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
 				}
 				else {
 					g.drawImage(sRightPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
 				}
 			}
-			else if(!Game.last && !moved && !dead) {
+			else if(!GameExe.isLast() && !moved && !dead) {
 				if(atk) {
 					g.drawImage(leftAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					if(isBuff) {
+						g.drawImage(leftBuff[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else {
+						g.drawImage(leftSword[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
 				}
 				else {
 					g.drawImage(sLeftPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
@@ -427,7 +467,7 @@ public class Player extends Entity{
 			}
 			
 		}else {
-			if(Game.last) {
+			if(GameExe.isLast()) {
 				g.drawImage(rightDmg[0], this.getX() - Camera.x, this.getY() - Camera.y, null);
 			}
 			else {

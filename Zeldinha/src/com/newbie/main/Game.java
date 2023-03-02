@@ -61,9 +61,29 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static Player player;
 	public static Random rand;
 	
-	public static boolean last = true, start = false, pause = false, dead = false, win = false, restart = false;
-	
 	public Ui ui;
+	
+//	private boolean last = true, start = false, pause = false, dead = false, win = false, restart = false;
+//	
+//	public boolean isPlaying() {
+//		return start && !pause && !dead && !win;
+//	}
+//	
+//	public boolean theyWin() {
+//		return start && !pause && !dead && win;
+//	}
+//	
+//	public boolean theyDie() {
+//		return start && !pause && dead && !win;
+//	}
+//	
+//	public boolean isPaused() {
+//		return start && pause && !dead && !win;
+//	}
+//	
+//	public boolean yetStart() {
+//		return !start && !pause && !dead && !win;
+//	}
 	
 	public Game() {
 		rand = new Random();
@@ -208,39 +228,39 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		
 		if(e.getKeyCode() == KeyEvent.VK_SPACE) {
 			
-			start = true;
+			GameExe.setStart(true);
 			
 		}
 		
-		if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (((!pause) && (start) && (dead)) || (win))) {
+		if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (GameExe.theyDie() || GameExe.theyWin())) {
 
 			System.exit(1);
 			
 		}
 		
-		if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (!pause) && (start) && (!dead)) {
+		if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && GameExe.isPlaying()) {
 			
-			pause = true;
+			GameExe.setPause(true);
 			
-		}else if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && (pause) && (start) && (!dead)) {
+		}else if((e.getKeyCode() == KeyEvent.VK_ESCAPE) && GameExe.isPaused()) {
 			
-			pause = false;
+			GameExe.setPause(false);
 			
-		}else if((e.getKeyCode() == KeyEvent.VK_R) && (((!pause) && (start) && (dead)) || (win))) {
+		}else if((e.getKeyCode() == KeyEvent.VK_R) && (GameExe.theyDie() || GameExe.theyWin())) {
 			
-			restart = true;
+			GameExe.setRestart(true);
 			
 		}
 		
-		if((!pause) && (start) && (!dead) && (!win)) {
+		if(GameExe.isPlaying()) {
 			
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 				player.right = true;
-				last = true;
+				GameExe.setLast(true);
 			}
 			else if(e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_A) {
 				player.left = true;
-				last = false;
+				GameExe.setLast(false);
 			}
 	
 			if(e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
@@ -272,7 +292,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		if((!pause) && (start) && (!dead) && (!win)) {
+		if(GameExe.isPlaying()) {
 			if(e.getKeyCode() == KeyEvent.VK_RIGHT || e.getKeyCode() == KeyEvent.VK_D) {
 				player.right = false;
 			}

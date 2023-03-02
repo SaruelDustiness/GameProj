@@ -253,10 +253,12 @@ public class World {
 						Game.player.setEntityCount(+1);
 					}
 					
-//					//Espada
-//					else if(pixelAtual == 0xFFA5FF7F) {
-//						Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.weaponOne));
-//					}
+					//Espada
+					else if(pixelAtual == 0xFFA5FF7F) {
+						Weapon sword = new Weapon(xx*16, yy*16, 16, 16, Entity.weaponOne);
+						Game.staticEntities.add(sword);
+						Game.player.setEntityCount(+1);
+					}
 					
 //					//Buff
 					else if(pixelAtual == 0xFFFFD27F) {

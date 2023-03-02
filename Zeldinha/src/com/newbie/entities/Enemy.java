@@ -5,6 +5,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.newbie.main.Game;
+import com.newbie.main.GameExe;
 import com.newbie.world.Camera;
 import com.newbie.world.World;
 
@@ -120,7 +121,7 @@ public class Enemy extends Entity{
 	
 	public void tick() {
 		
-		if((!dead) && (Game.start) && (!Game.pause) && (!Game.dead)) {
+		if((!dead) && GameExe.isPlaying()) {
 			//Se o jogo for iniciado, estiver despausado e o jogador não estiver morto,
 			//o inimigo corre até ele.
 			framesRun++;
@@ -151,7 +152,7 @@ public class Enemy extends Entity{
 					}else {
 						if(Game.player.getLife() <= 0) {//Se a vida zerar, o jogo exibe a tela final e 
 							//o jogador é morto.
-							Game.dead = true;
+							GameExe.setDead(true);
 							Game.player.setDead(true);
 						}
 						
@@ -199,9 +200,7 @@ public class Enemy extends Entity{
 				
 			}
 			
-		}else if (((!dead) && (Game.start) && (Game.pause) && (!Game.dead))||
-				((!dead) && (!Game.start) && (!Game.pause) && (!Game.dead))||
-				((!dead) && (Game.start) && (!Game.pause) && (Game.dead))){
+		}else if (((!dead) && GameExe.isPaused()) || ((!dead) && GameExe.yetStart()) || ((!dead) && GameExe.theyDie())){
 			//Caso contrário, o inimigo ficará paradinho.
 			if(!stopp) {
 				framesIdle++;
@@ -215,14 +214,14 @@ public class Enemy extends Entity{
 				
 			}
 			
-		}else if(((dead) && (!stopp) && (Game.start) && (!Game.pause) && (!Game.dead)) ||
-			((dead) && (!stopp) && (Game.start) && (Game.pause) && (!Game.dead))) {
+		}else if(((dead) && (!stopp) && GameExe.isPlaying()) ||
+			((dead) && (!stopp) && GameExe.isPaused())) {
 			
 			framesDie++;
 			if(framesDie == maxFramesDie) {
 				framesDie = 0;
 				die++;
-				if(Game.pause) {
+				if(GameExe.isPaused()) {
 					die--;
 				}
 				if(die > maxDie) {
@@ -239,8 +238,8 @@ public class Enemy extends Entity{
 			}
 		}
 
-		if((Game.player.getEnemyCount() == 0) && (Game.start)) {
-			Game.win = true;
+		if((Game.player.getEnemyCount() == 0) && (GameExe.isPlaying())) {
+			GameExe.setWin(true);
 		}
 		
 	}
@@ -306,7 +305,7 @@ public class Enemy extends Entity{
 	
 	public void render(Graphics g) {
 		
-		if((Game.start) && (!Game.pause) && (!Game.dead) && (!dead)) {
+		if(GameExe.isPlaying() && (!dead)) {
 		
 			if(!isCollidingWithPlayer()) { // Inimigo Correndo
 			
@@ -375,10 +374,7 @@ public class Enemy extends Entity{
 					
 			}
 			
-		}else if (((Game.start) && (!Game.pause) && (!Game.dead) && (!dead)) || 
-				((Game.start) && (Game.pause) && (!Game.dead) && (!dead)) ||
-				((!Game.start) && (!Game.pause) && (!Game.dead) && (!dead)) ||
-				((Game.start) && (!Game.pause) && (Game.dead) && (!dead))){ //Inimigo parado
+		}else if ((GameExe.isPlaying() && !dead) || (GameExe.isPaused() && !dead) || (GameExe.yetStart() && !dead) || (GameExe.theyDie() && !dead)){ //Inimigo parado
 			
 			if(blue) {
 				
@@ -399,8 +395,7 @@ public class Enemy extends Entity{
 			
 			}
 			
-		} else if (((Game.start) && (!Game.pause) && (!Game.dead) && (dead)) ||
-				((Game.start) && (Game.pause) && (!Game.dead) && (dead))) {
+		} else if ((GameExe.isPlaying() && dead) || (GameExe.isPaused() && dead)) {
 			if(blue) {
 				
 				if(last) {

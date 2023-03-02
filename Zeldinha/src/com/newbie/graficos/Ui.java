@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import com.newbie.entities.Enemy;
 import com.newbie.entities.Entity;
 import com.newbie.main.Game;
+import com.newbie.main.GameExe;
 import com.newbie.world.Camera;
 
 public class Ui {
@@ -16,26 +17,26 @@ public class Ui {
 		s.setFont(new Font("arial", Font.BOLD, 14));
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 14));
-		if(!Game.start) {
+		if(GameExe.yetStart()) {
 			
 			g.drawString("Pressione Espaço para iniciar!", 62, 124);
 			
-		}else if((Game.start) && (Game.pause) && (!Game.dead) && (!Game.win)) {
+		}else if(GameExe.isPaused()) {
 			
 			g.drawString("Jogo Pausado!", 119, 114);
 			s.drawString("Pressione ESC para continuar!", 61, 138);
 			
-		}else if((Game.start) && (!Game.pause) && (!Game.dead) && (!Game.win)){
+		}else if(GameExe.isPlaying()){
 			
 			g.drawString("", 0, 0);
 			s.drawString("", 0, 0);
 			
-		}else if((Game.start) && (!Game.pause) && (Game.dead) && (!Game.win)) {
+		}else if(GameExe.theyDie()) {
 			
 			g.drawString("E morreu!!1onze!", 111, 114);
 			s.drawString("Pressione R para reiniciar ou ESC para sair!", 20, 138);
 			
-		}else if((Game.start) && (!Game.pause) && (!Game.dead) && (Game.win)) {
+		}else if(GameExe.theyWin()) {
 
 			g.drawString("Parabéns! Você ganhou!", 90, 114);
 			s.drawString("Pressione R para reiniciar ou ESC para sair!", 20, 138);
@@ -70,7 +71,7 @@ public class Ui {
 		
 		g.setColor(Color.white);
 		g.setFont(new Font("arial", Font.BOLD, 10));
-		if(Game.restart) {
+		if(GameExe.getRestart()) {
 			g.drawString("", 60, 11);
 		}else if(Game.player.getLife() <= 0) {
 			Game.player.setLife(0);
