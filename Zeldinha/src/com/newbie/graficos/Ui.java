@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import com.newbie.entities.Buff;
 import com.newbie.entities.Enemy;
 import com.newbie.entities.Entity;
 import com.newbie.main.Game;
@@ -76,9 +75,15 @@ public class Ui {
 		for(int i = 0; i < Game.livingEntities.size(); i++) {
 			Entity atual = Game.livingEntities.get(i);
 			if(atual instanceof Enemy) {
-				g.fillRect(((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6, (int) ((Enemy.getLife()/Enemy.getMaxLife())*16), 2);
+				g.fillRect(((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6, (int) ((((Enemy) atual).getLife()/((Enemy) atual).getMaxLife())*16), 2);
 			}
 		}
+		
+//		g.setColor(Color.red);
+//		g.fillRect((Game.player.getX() - Camera.x), (Game.player.getY() - Camera.y) - 6, 24, 3);
+//		
+//		g.setColor(Color.green);
+//		g.fillRect((Game.player.getX() - Camera.x), (Game.player.getY() - Camera.y) - 6, (int)((Game.player.getLife()/Game.player.getMaxLife())*24), 3);
 
 		g.setColor(Color.red);
 		g.fillRect(8, 4, 50, 8);

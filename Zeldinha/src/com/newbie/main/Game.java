@@ -105,7 +105,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		atkDie = new Spritesheet("/atkdie.png");
 		sword = new Spritesheet("/sword.png");
 		buff = new Spritesheet("/buffSword.png");
-		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 24, 24));
+		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 24, 24), 100, 100);
 		livingEntities.add(player);
 		summerMap = new Spritesheet("/mapSummer.png");
 		inside = new Spritesheet("/inside.png");

@@ -208,8 +208,8 @@ public class World {
 					
 					//Inimigo
 					else if(pixelAtual == 0xFFED1C24) {
-						Enemy enBlue = new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBlue, true);
-						Enemy enBrown = new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBrown, false);
+						Enemy enBlue = new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBlue, true, 10, 10);
+						Enemy enBrown = new Enemy(xx*16, yy*16, 16, 16, Entity.enemyBrown, false, 10, 10);
 						if(((int)(Math.random()*3)+1)==1) {
 							tiles[xx+(yy*WIDTH)] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR1);
 						}else if(((int)(Math.random()*3)+1)==2) {

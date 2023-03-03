@@ -21,15 +21,15 @@ public class Enemy extends Entity{
 	public int dir;
 	private Boolean blue;
 	public boolean dead = false, stopp = false;
-	public static double life = 10, dmgTkn, maxLife = 10;
+	public double life, dmgTkn, maxLife;
 
-	public static double getLife() {
+	public double getLife() {
 		return life;
 	}
-	public static void setLife(double life) {
-		Enemy.life = life;
+	public void setLife(double life) {
+		this.life = life;
 	}
-	public static double getMaxLife() {
+	public double getMaxLife() {
 		return maxLife;
 	}
 
@@ -53,7 +53,7 @@ public class Enemy extends Entity{
 	
 //	private int maskx = 8, masky = 8, maskw = 5, maskh = 5;
 
-	public Enemy(double x, double y, int width, int height, BufferedImage sprite, Boolean blue) {
+	public Enemy(double x, double y, int width, int height, BufferedImage sprite, Boolean blue, double life, double maxLife) {
 		super(x, y, width, height, null);
 		this.blue = blue;
 		
@@ -66,6 +66,8 @@ public class Enemy extends Entity{
 		leftBlueRun = new BufferedImage[7];
 		leftBlueAtk = new BufferedImage[6];
 		leftBlueDie = new BufferedImage[7];
+		this.life = life;
+		this.maxLife = maxLife;
 		
 		for(int i = 0; i < 6; i++) {
 			rightBlueIdle[i] = Game.enemyOne.getSprite(0 + (i*16), 0, 16, 16);
