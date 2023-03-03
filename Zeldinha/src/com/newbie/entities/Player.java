@@ -19,7 +19,8 @@ public class Player extends Entity{
 	
 	private int framesIdle = 0, framesRun = 0, framesAtk = 0, maxFramesAtk = 5, maxFramesIdle = 20, maxFramesRun = 4, index = 0, maxIndex = 7, index2 = 0, maxIndex2 = 1;
 	private int framesDie = 0, maxFramesDie = 6, die = 0, maxDie = 3;
-	private int iSwd = 2;
+	private int xSwd = 5;
+	private int ySwd = 1;
 	private int dmgFrames = 0;
 	private int iAtk = 0, maxIAtk = 4;
 	private boolean moved = false;
@@ -254,20 +255,44 @@ public class Player extends Entity{
 			framesRun++;
 			if(framesRun == maxFramesRun) {
 				framesRun = 0;
-//				switch(index) {
-//					case 0: iSwd = 2;
-//					case 1: iSwd = 1;
-//					case 2: iSwd = 2;
-//					case 3: iSwd = 3;
-//					case 4: iSwd = 2;
-//					case 5: iSwd = 1;
-//					case 6: iSwd = 2;
-//					case 7: iSwd = 3;
-//				}
 				index++;
+				switch(index) {
+					case 0: 
+						xSwd = 4;
+						ySwd = 1;
+						break;
+					case 1: 
+						xSwd = 2;
+						ySwd = 0;
+						break;
+					case 2: 
+						xSwd = 4;
+						ySwd = 1;
+						break;
+					case 3: 
+						xSwd = 5;
+						ySwd = 2;
+						break;
+					case 4: 
+						xSwd = 6;
+						ySwd = 1;
+						break;
+					case 5: 
+						xSwd = 7;
+						ySwd = 0;
+						break;
+					case 6: 
+						xSwd = 6;
+						ySwd = 1;
+						break;
+					case 7: 
+						xSwd = 5;
+						ySwd = 2;
+						break;
+				}
 				if(index > maxIndex) {
 					index = 0;
-//					iSwd = 2;
+					ySwd = 1;
 				}
 			}
 		}
@@ -277,10 +302,10 @@ public class Player extends Entity{
 			if(framesIdle == maxFramesIdle) {
 				framesIdle = 0;
 				index2++;
-				iSwd++;
+				ySwd++;
 				if(index2 > maxIndex2) {
 					index2 = 0;
-					iSwd = 2;
+					ySwd = 1;
 				}
 			}
 		}
@@ -440,22 +465,22 @@ public class Player extends Entity{
 				if(atk && equip) {
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}
 				}else if(!atk && equip) {
 					if(isBuff) {
-						g.drawImage(rightBuff[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(rightBuff[1], (this.getX() - Camera.x)-xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}else if(!isBuff){
-						g.drawImage(rightSword[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(rightSword[1], (this.getX() - Camera.x)-xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}
 				}
 			}
@@ -464,22 +489,22 @@ public class Player extends Entity{
 				if(atk && equip) {
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(leftBuff[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftBuff[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(leftSword[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftSword[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}
 				}else if(!atk && equip) {
 					if(isBuff) {
-						g.drawImage(leftBuff[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(leftBuff[1], (this.getX() - Camera.x)+xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}else if(!isBuff){
-						g.drawImage(leftSword[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(leftSword[1], (this.getX() - Camera.x)+xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}
 				}
 			}
@@ -489,22 +514,22 @@ public class Player extends Entity{
 				if(atk && equip) {
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}
 				}else if(!atk && equip) {
 					if(isBuff) {
-						g.drawImage(rightBuff[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(rightBuff[1], (this.getX() - Camera.x)-xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}else if(!isBuff){
-						g.drawImage(rightSword[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(rightSword[1], (this.getX() - Camera.x)-xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}
 				}
 			}
@@ -513,22 +538,22 @@ public class Player extends Entity{
 				if(atk && equip) {
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(leftBuff[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftBuff[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(leftSword[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftSword[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}
 				}else if(!atk && equip) {
 					if(isBuff) {
-						g.drawImage(leftBuff[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(leftBuff[1], (this.getX() - Camera.x)+xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}else if(!isBuff){
-						g.drawImage(leftSword[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(leftSword[1], (this.getX() - Camera.x)+xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}
 				}
 			}
@@ -538,22 +563,22 @@ public class Player extends Entity{
 				if(atk && equip) {
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}
 				}else if(!atk && equip) {
 					if(isBuff) {
-						g.drawImage(rightBuff[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(rightBuff[1], (this.getX() - Camera.x)-xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}else if(!isBuff){
-						g.drawImage(rightSword[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(rightSword[1], (this.getX() - Camera.x)-xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}
 				}
 			}
@@ -562,22 +587,22 @@ public class Player extends Entity{
 				if(atk && equip) {
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(leftBuff[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftBuff[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(leftSword[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftSword[iAtk], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}
 				}else if(!atk && equip) {
 					if(isBuff) {
-						g.drawImage(leftBuff[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(leftBuff[1], (this.getX() - Camera.x)+xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}else if(!isBuff){
-						g.drawImage(leftSword[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+						g.drawImage(leftSword[1], (this.getX() - Camera.x)+xSwd, (this.getY() - Camera.y)+ySwd, null);
 					}
 				}
 			}
@@ -587,13 +612,13 @@ public class Player extends Entity{
 					g.drawImage(rightAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					if(isBuff) {
 						if(iAtk == 0) {
-							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightBuff[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
 					}else if(!isBuff){
 						if(iAtk == 0) {
-							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightSword[iAtk], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else {
 							g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 						}
@@ -603,9 +628,9 @@ public class Player extends Entity{
 					g.drawImage(sRightPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					if(!atk && equip) {
 						if(isBuff) {
-							g.drawImage(rightBuff[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightBuff[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}else if(!isBuff){
-							g.drawImage(rightSword[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(rightSword[1], (this.getX() - Camera.x)-5, (this.getY() - Camera.y)+ySwd, null);
 						}
 					}
 				}
@@ -623,9 +648,9 @@ public class Player extends Entity{
 					g.drawImage(sLeftPlayer[index2], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					if(!atk && equip) {
 						if(isBuff) {
-							g.drawImage(leftBuff[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftBuff[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}else if(!isBuff){
-							g.drawImage(leftSword[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+iSwd, null);
+							g.drawImage(leftSword[1], (this.getX() - Camera.x)+5, (this.getY() - Camera.y)+ySwd, null);
 						}
 					}
 				}
