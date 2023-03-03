@@ -27,8 +27,8 @@ public class AtkFunc {
 					}else if((Game.player.buff > 0)) {
 						((Enemy) atual).life += -Game.player.danoCrit;
 						((Enemy) atual).dmgTkn = Game.player.danoCrit;
+						Game.player.buff+= -1;
 						Game.player.critDmg = true;
-						Game.player.buff--;
 						System.out.println("Inimigo "+i+": "+((Enemy) atual).life);
 					}
 					if(((Enemy) atual).life <= 0) {

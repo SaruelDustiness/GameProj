@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
+import com.newbie.entities.Buff;
 import com.newbie.entities.Enemy;
 import com.newbie.entities.Entity;
 import com.newbie.main.Game;
@@ -63,6 +64,22 @@ public class Ui {
 			s.drawString("", 0, 0);
 		}
 		
+		g.setColor(Color.red);
+		for(int i = 0; i < Game.livingEntities.size(); i++) {
+			Entity atual = Game.livingEntities.get(i);
+			if(atual instanceof Enemy) {
+				g.fillRect(((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6, 16, 2);
+			}
+		}
+		
+		g.setColor(Color.green);
+		for(int i = 0; i < Game.livingEntities.size(); i++) {
+			Entity atual = Game.livingEntities.get(i);
+			if(atual instanceof Enemy) {
+				g.fillRect(((Enemy) atual).getX() - Camera.x, (((Enemy) atual).getY() - Camera.y) - 6, (int) ((Enemy.getLife()/Enemy.getMaxLife())*16), 2);
+			}
+		}
+
 		g.setColor(Color.red);
 		g.fillRect(8, 4, 50, 8);
 		

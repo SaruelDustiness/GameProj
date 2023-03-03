@@ -21,7 +21,17 @@ public class Enemy extends Entity{
 	public int dir;
 	private Boolean blue;
 	public boolean dead = false, stopp = false;
-	public double life = 10, dmgTkn;
+	public static double life = 10, dmgTkn, maxLife = 10;
+
+	public static double getLife() {
+		return life;
+	}
+	public static void setLife(double life) {
+		Enemy.life = life;
+	}
+	public static double getMaxLife() {
+		return maxLife;
+	}
 
 	private BufferedImage[] rightBlueRun;
 	private BufferedImage[] leftBlueRun;

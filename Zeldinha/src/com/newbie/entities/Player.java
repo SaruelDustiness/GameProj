@@ -21,7 +21,6 @@ public class Player extends Entity{
 	private int framesDie = 0, maxFramesDie = 6, die = 0, maxDie = 3;
 	private int dmgFrames = 0;
 	private int iAtk = 0, maxIAtk = 4;
-	private int iSwd = 0, maxISwd = 2, framesSwd = 0, maxFramesSwd = 4;
 	private boolean moved = false;
 	private BufferedImage[] rightPlayer;
 	private BufferedImage[] leftPlayer;
@@ -175,10 +174,10 @@ public class Player extends Entity{
 		rightDead = new BufferedImage[4];
 		rightDmg = new BufferedImage[1];
 		leftDmg = new BufferedImage[1];
-		rightSword = new BufferedImage[1];
-		leftSword = new BufferedImage[1];
-		rightBuff = new BufferedImage[4];
-		leftBuff = new BufferedImage[4];
+		rightSword = new BufferedImage[5];
+		leftSword = new BufferedImage[5];
+		rightBuff = new BufferedImage[5];
+		leftBuff = new BufferedImage[5];
 		
 		rightDmg[0] = Game.charAnim.getSprite(96, 0, 24, 24);
 		leftDmg[0] = Game.charAnim.getSprite(120, 0, 24, 24);
@@ -201,6 +200,18 @@ public class Player extends Entity{
 		}
 		for(int i = 0; i < 5; i++) {
 			leftAtk[i] = Game.atkDie.getSprite(0 + (i*24), 0, 24, 24);
+		}
+		for(int i = 0; i < 5; i++) {
+			rightSword[i] = Game.sword.getSprite(0 + (i*24), 24, 24, 24);
+		}
+		for(int i = 0; i < 5; i++) {
+			leftSword[i] = Game.sword.getSprite(0 + (i*24), 0, 24, 24);
+		}
+		for(int i = 0; i < 5; i++) {
+			rightBuff[i] = Game.buff.getSprite(0 + (i*24), 24, 24, 24);
+		}
+		for(int i = 0; i < 5; i++) {
+			leftBuff[i] = Game.buff.getSprite(0 + (i*24), 0, 24, 24);
 		}
 		for(int i = 0; i < 4; i++) {
 			rightDead[i] = Game.atkDie.getSprite(0 + (i*24), 72, 24, 24);
@@ -258,11 +269,7 @@ public class Player extends Entity{
 				}
 			}
 		}
-		if(buff>0) {
-			isBuff = true;
-		}else {
-			isBuff = false;
-		}
+		
 		//Animação de ataque
 		if(atk && !dead && equip) {
 			framesAtk++;
@@ -271,22 +278,16 @@ public class Player extends Entity{
 				iAtk++;
 				if(iAtk == 2) {	//Ao realizar o terceiro frame do ataque, o jogador 
 					AtkFunc.atack();
+					System.out.println(isBuff);
 				}
 				if(iAtk > maxIAtk) {
 					iAtk = 0;
 					atkDmg = false;
 					critDmg = false;
 					atk = false;
-				}
-			}
-		}
-		if(atk && !dead && equip) {
-			framesSwd++;
-			if(framesSwd == maxFramesSwd) {
-				framesSwd = 0;
-				iSwd++;
-				if(iSwd > maxISwd) {
-					iSwd = 0;
+					if(buff==0) {
+						isBuff = false;
+					}
 				}
 			}
 		}
@@ -384,6 +385,7 @@ public class Player extends Entity{
 			if(atual instanceof Buff) {
 				if(Entity.isCollidingBuff(this, atual)){
 					buff+=5;
+					isBuff = true;
 					
 					Game.staticEntities.remove(i);
 				}
@@ -420,32 +422,74 @@ public class Player extends Entity{
 			
 			if((dir == right_dir) && (moved)) {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(atk && equip) {
+					if(isBuff) {
+						g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 			}
 			else if((dir == left_dir) && (moved)) {
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(atk && equip) {
+					if(isBuff) {
+						g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 			}
 	
 			if((dir == up_dir) && (GameExe.isLast() && moved)) {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(atk && equip) {
+					if(isBuff) {
+						g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 			}
 			else if((dir == down_dir) && (!GameExe.isLast() && moved)) {
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(atk && equip) {
+					if(isBuff) {
+						g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 			}
 			
 			if((dir == down_dir) && (GameExe.isLast() && moved)) {
 				g.drawImage(rightPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(atk && equip) {
+					if(isBuff) {
+						g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 			}
 			else if((dir == up_dir) && (!GameExe.isLast() && moved)) {
 				g.drawImage(leftPlayer[index], this.getX() - Camera.x, this.getY() - Camera.y, null);
+				if(atk && equip) {
+					if(isBuff) {
+						g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}
+				}
 			}
 			
 			if(GameExe.isLast() && !moved && !dead) {
-				if(atk) {
+				if(atk && equip) {
 					g.drawImage(rightAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					if(isBuff) {
-						g.drawImage(rightBuff[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
-					}else {
-						g.drawImage(rightSword[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
+						g.drawImage(rightBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(rightSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					}
 				}
 				else {
@@ -453,12 +497,12 @@ public class Player extends Entity{
 				}
 			}
 			else if(!GameExe.isLast() && !moved && !dead) {
-				if(atk) {
+				if(atk && equip) {
 					g.drawImage(leftAtk[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					if(isBuff) {
-						g.drawImage(leftBuff[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
-					}else {
-						g.drawImage(leftSword[iSwd], this.getX() - Camera.x, this.getY() - Camera.y, null);
+						g.drawImage(leftBuff[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
+					}else if(!isBuff){
+						g.drawImage(leftSword[iAtk], this.getX() - Camera.x, this.getY() - Camera.y, null);
 					}
 				}
 				else {

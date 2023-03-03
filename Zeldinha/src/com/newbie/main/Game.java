@@ -49,7 +49,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static List<Entity> livingEntities;
 	public static List<Enemy> blueEnemies;
 	public static List<Enemy> brownEnemies;
-	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside, items;
+	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside, items, sword, buff;
 	
 //	public static Spritesheet atkdie;
 //	public static Spritesheet tilemap;
@@ -103,6 +103,8 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		enemyTwo = new Spritesheet("/brownmush.png");
 		charAnim = new Spritesheet("/charAnim.png");
 		atkDie = new Spritesheet("/atkdie.png");
+		sword = new Spritesheet("/sword.png");
+		buff = new Spritesheet("/buffSword.png");
 		player = new Player(0, 0, 16, 16, charAnim.getSprite(70, 0, 24, 24));
 		livingEntities.add(player);
 		summerMap = new Spritesheet("/mapSummer.png");
@@ -278,7 +280,8 @@ public class Game extends Canvas implements Runnable, KeyListener{
 				
 			}
 			
-			if(e.getKeyCode() == KeyEvent.VK_F) {
+			if((e.getKeyCode() == KeyEvent.VK_F) && (Game.player.isEquip())) {
+				System.out.println(player.buff);
 				player.atk = true;
 			}
 			
