@@ -53,6 +53,7 @@ public class Player extends Entity{
 	private boolean atked = false;
 	private boolean equip = false;
 	private boolean isBuff = false;
+	public boolean slashAtk = false;
 	
 	public Player(int x, int y, int width, int height, BufferedImage sprite, double life, double maxLife) {
 		super(x, y, width, height, sprite);
@@ -350,6 +351,22 @@ public class Player extends Entity{
 				this.dmgFrames = 0;
 				atked = false;
 			}
+		}
+		
+		if(slashAtk) {
+			slashAtk = false;
+			int dx = 0;
+			if(dir == right_dir) {
+				dx = 1;
+				System.out.println("a");
+			}else {
+				dx = -1;
+				System.out.println("b");
+			}
+			Ranged slash = new Ranged(this.getX(), this.getY(), 2, 2, null, dx, 0);
+			
+			Game.slash.add(slash);
+			System.out.println(Game.slash.size());
 		}
 		
 		if(GameExe.getRestart()) {

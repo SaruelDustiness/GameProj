@@ -21,6 +21,7 @@ import javax.swing.JFrame;
 import com.newbie.entities.Enemy;
 import com.newbie.entities.Entity;
 import com.newbie.entities.Player;
+import com.newbie.entities.Ranged;
 import com.newbie.graficos.Spritesheet;
 import com.newbie.graficos.Ui;
 import com.newbie.world.World;
@@ -48,6 +49,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static List<Entity> staticEntities;
 	public static List<Entity> livingEntities;
 	public static List<Enemy> blueEnemies;
+	public static List<Ranged> slash;
 	public static List<Enemy> brownEnemies;
 	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside, items, sword, buff;
 	
@@ -95,6 +97,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		staticEntities = new ArrayList<Entity>();
 		blueEnemies = new ArrayList<Enemy>();
 		brownEnemies = new ArrayList<Enemy>();
+		slash = new ArrayList<Ranged>();
 		
 		ui = new Ui();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -154,6 +157,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			Entity sE = staticEntities.get(i);
 			sE.tick();
 		}
+		for(int i = 0; i < slash.size(); i++) {
+			slash.get(i).tick();
+		}
 	}
 	
 	public void render() {
@@ -178,6 +184,9 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		for (int i = 0; i < staticEntities.size(); i++){
 			Entity sE = staticEntities.get(i);
 			sE.render(g);
+		}
+		for(int i = 0; i < slash.size(); i++) {
+			slash.get(i).render(g);
 		}
 		ui.render(g, s);
 		g.dispose();
@@ -276,12 +285,11 @@ public class Game extends Canvas implements Runnable, KeyListener{
 				
 			}
 			
-			if(e.getKeyCode() == KeyEvent.VK_X) {
-				
+			if((e.getKeyCode() == KeyEvent.VK_X) && (Game.player.isEquip())) {
+				player.slashAtk = true;
 			}
 			
 			if((e.getKeyCode() == KeyEvent.VK_F) && (Game.player.isEquip())) {
-				System.out.println(player.buff);
 				player.atk = true;
 			}
 			
