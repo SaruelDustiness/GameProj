@@ -49,7 +49,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 	public static List<Entity> staticEntities;
 	public static List<Entity> livingEntities;
 	public static List<Enemy> blueEnemies;
-	public static List<Ranged> slash;
+	public static List<Ranged> landCrusher;
 	public static List<Enemy> brownEnemies;
 	public static Spritesheet charAnim, atkDie, tileMap, objects, enemyOne, enemyTwo, summerMap, inside, items, sword, buff;
 	
@@ -97,7 +97,7 @@ public class Game extends Canvas implements Runnable, KeyListener{
 		staticEntities = new ArrayList<Entity>();
 		blueEnemies = new ArrayList<Enemy>();
 		brownEnemies = new ArrayList<Enemy>();
-		slash = new ArrayList<Ranged>();
+		landCrusher = new ArrayList<Ranged>();
 		
 		ui = new Ui();
 		image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -157,8 +157,8 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			Entity sE = staticEntities.get(i);
 			sE.tick();
 		}
-		for(int i = 0; i < slash.size(); i++) {
-			slash.get(i).tick();
+		for(int i = 0; i < landCrusher.size(); i++) {
+			landCrusher.get(i).tick();
 		}
 	}
 	
@@ -185,8 +185,8 @@ public class Game extends Canvas implements Runnable, KeyListener{
 			Entity sE = staticEntities.get(i);
 			sE.render(g);
 		}
-		for(int i = 0; i < slash.size(); i++) {
-			slash.get(i).render(g);
+		for(int i = 0; i < landCrusher.size(); i++) {
+			landCrusher.get(i).render(g);
 		}
 		ui.render(g, s);
 		g.dispose();

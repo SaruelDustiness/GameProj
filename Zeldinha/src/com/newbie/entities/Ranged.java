@@ -19,8 +19,8 @@ public class Ranged extends Entity{
 	
 	public void tick() {
 		
-		x = dx+spd;
-		y = dy+spd;
+		x += dx*spd;
+		y += dy*spd;
 	
 	}
 	

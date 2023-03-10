@@ -363,10 +363,10 @@ public class Player extends Entity{
 				dx = -1;
 				System.out.println("b");
 			}
-			Ranged slash = new Ranged(this.getX(), this.getY(), 2, 2, null, dx, 0);
+			Ranged landCrusher = new Ranged(this.getX(), this.getY(), 2, 2, null, dx, 0);
 			
-			Game.slash.add(slash);
-			System.out.println(Game.slash.size());
+			Game.landCrusher.add(landCrusher);
+			System.out.println(Game.landCrusher.size());
 		}
 		
 		if(GameExe.getRestart()) {
